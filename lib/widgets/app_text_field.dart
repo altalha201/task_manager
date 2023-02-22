@@ -7,18 +7,21 @@ class AppTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
   final bool? obscureText;
+  final TextInputType? inputType;
 
   const AppTextField({
     Key? key,
     required this.hint,
     this.obscureText,
-    required this.controller
+    required this.controller,
+    this.inputType
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText ?? false,
+      keyboardType: inputType ?? TextInputType.text,
       decoration: InputDecoration(
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: colorGreen, width: 1),

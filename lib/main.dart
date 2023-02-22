@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/screens/email_verification_screen.dart';
+import 'package:task_manager/screens/splash_screen.dart';
 
 import 'screens/login_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const TaskManagerApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class TaskManagerApp extends StatelessWidget {
+  const TaskManagerApp({super.key});
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Task Manager',
-      home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/' : (context) => SplashScreen(),
+        '/login' : (context) => LoginScreen(),
+        '/emailVerification' : (context) => EmailVerificationScreen(),
+      },
     );
   }
 }

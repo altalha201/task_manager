@@ -72,7 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           question: "Don't Have Account?",
                           todo: "Sign Up",
                           onTap: () {
-
+                            Navigator.pushNamed(context, "/signUp");
                           },
                         ),
                       ],

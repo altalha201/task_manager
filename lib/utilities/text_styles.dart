@@ -20,3 +20,10 @@ TextStyle authTextButton(textColor) => TextStyle(
   fontFamily: 'poppins',
   fontWeight: FontWeight.w200,
 );
+
+TextStyle authButton(textColor) => TextStyle(
+  color: textColor,
+  fontSize: 16,
+  fontFamily: "poppins",
+  fontWeight: FontWeight.w500
+);

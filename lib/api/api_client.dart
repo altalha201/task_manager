@@ -1,23 +1,54 @@
 import 'dart:convert';
+import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:task_manager/utilities/toasts.dart';
 
-var baseURL = "https://task.teamrabbil.com/api/v1";
-var requestHeader={"Content-Type":"application/json"};
+class NetworkUtils {
+  Future<dynamic> getMethod(String url, {VoidCallback? onUnAuthorize}) async {
+    try {
+      final http.Response response = await http.get(Uri.parse(url));
+      if(response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else if (response.statusCode == 401) {
+        if (onUnAuthorize != null) {
+          onUnAuthorize();
+        }
+        else {
+          errorToast("Something Went wrong");
+        }
+      } else {
+        errorToast("Something Went wrong");
+      }
 
-Future<bool> registrationRequest(data) async {
-  var url = Uri.parse("$baseURL/registration");
-  var requestBody = json.encode(data);
-  var response = await http.post(url, headers: requestHeader, body: requestBody);
+    } catch (e) {
+      print(e);
+    }
+  }
 
-  var responseCode = response.statusCode;
-  var responseBody = json.decode(response.body);
+  Future<dynamic> postMethod(String url,
+      {Map<String, String>? body, VoidCallback? onUnAuthorize, String? token}) async {
+    try {
+      final http.Response response = await http.post(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/json", 'token' : token ?? ''},
+        body: jsonEncode(body)
+      );
+      if(response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else if (response.statusCode == 401) {
+        if (onUnAuthorize != null) {
+          onUnAuthorize();
+        }
+        else {
+          errorToast("Something Went wrong");
+        }
+      } else {
+        errorToast("Something Went wrong");
+      }
 
-  if(responseCode == 200 && responseBody['status'] == 'success') {
-    successToast("Account Created");
-    return true;
-  } else {
-    errorToast("Request Failed, try again");
-    return false;
+    } catch (e) {
+      print(e);
+    }
   }
 }
+

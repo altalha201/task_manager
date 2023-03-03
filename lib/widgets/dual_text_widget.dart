@@ -32,7 +32,7 @@ class DualTextWidget extends StatelessWidget {
             question,
             style: authTextButton(colorDarkBlue),
           ),
-          horizontalSpacing(4),
+          horizontalSpacing(4.0),
           Text(
             todo,
             style: authTextButton(colorGreen),

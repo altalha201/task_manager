@@ -1,3 +1,4 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/api/api_client.dart';
 import 'package:task_manager/utilities/application_colors.dart';
@@ -98,6 +99,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 validator: (value) {
                                   if (value?.trim().isEmpty ?? true){
                                     return "Enter Your Email";
+                                  } else if (EmailValidator.validate(value!.trim())) {
+                                    return "Enter a valid Email";
                                   }
                                   return null;
                                 },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/screens/email_verification_screen.dart';
+import 'package:task_manager/screens/home_screen.dart';
 import 'package:task_manager/screens/pin_verification_screen.dart';
 import 'package:task_manager/screens/set_password_screen.dart';
 import 'package:task_manager/screens/sign_up_screen.dart';
@@ -22,12 +23,13 @@ class TaskManagerApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/' : (context) => SplashScreen(),
-        '/login' : (context) => LoginScreen(),
-        '/emailVerification' : (context) => EmailVerificationScreen(),
-        '/pinVerify' : (context) => PinVerificationScreen(),
-        '/setPass' : (context) => SetPasswordScreen(),
-        '/signUp' : (context) => SignUpScreen(),
+        '/' : (context) => const SplashScreen(),
+        '/login' : (context) => const LoginScreen(),
+        '/emailVerification' : (context) => const EmailVerificationScreen(),
+        '/pinVerify' : (context) => const PinVerificationScreen(),
+        '/setPass' : (context) => const SetPasswordScreen(),
+        '/signUp' : (context) => const SignUpScreen(),
+        '/home' : (context) => const HomeScreen(),
       },
     );
   }

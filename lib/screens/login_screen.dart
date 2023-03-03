@@ -1,4 +1,3 @@
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 
@@ -44,13 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: Center(
         child: Scaffold(
           body: ScreenBackground(
-              child: inProgress
-                  ? const Center(
-                      child: CircularProgressIndicator(
-                        color: colorGreen,
-                      ),
-                    )
-                  : SafeArea(
+              child: SafeArea(
                       child: Padding(
                       padding: const EdgeInsets.all(24.0),
                       child: Form(
@@ -70,8 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 validator: (value) {
                                   if (value?.trim().isEmpty ?? true) {
                                     return "Enter Your Email";
-                                  } else if (EmailValidator.validate(value!.trim())){
-                                    return "Enter a valid Email";
                                   }
                                   return null;
                                 },
@@ -90,7 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             verticalSpacing(16.0),
                             AppElevatedButton(
                               onTap: () => login(),
-                              child: const Icon(
+                              child: inProgress ? const Center(
+                                child: CircularProgressIndicator(
+                                  color: colorWhite,
+                                ),
+                              ) : const Icon(
                                 proceedIcon,
                                 size: 30,
                               ),

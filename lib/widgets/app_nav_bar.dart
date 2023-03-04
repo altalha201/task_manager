@@ -36,7 +36,6 @@ class _AppNavBarState extends State<AppNavBar> {
       iconSize: 28,
       backgroundColor: colorGreen,
       fixedColor: colorWhite,
-      // selectedItemColor: colorGreen,
       unselectedItemColor: colorDarkBlue,
       showUnselectedLabels: true,
       elevation: 10,

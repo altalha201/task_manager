@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/application_colors.dart';
+import 'package:task_manager/screens/task_components/cancled_task.dart';
+import 'package:task_manager/screens/task_components/completed_task.dart';
+import 'package:task_manager/screens/task_components/new_task.dart';
+import 'package:task_manager/screens/task_components/progress_task.dart';
+
 import 'package:task_manager/widgets/app_nav_bar.dart';
+import 'package:task_manager/widgets/task_app_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,11 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final widgetsOptions = [
+    const NewTask(),
+    const ProgressTask(),
+    const CompletedTask(),
+    const CanceledTask(),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: colorGreen,),
-      body: Center(),
+      appBar: taskAppBar(),
+      body: widgetsOptions.elementAt(tabIndex),
       bottomNavigationBar: AppNavBar(
         currentIndex: tabIndex,
         onTap: (value) {

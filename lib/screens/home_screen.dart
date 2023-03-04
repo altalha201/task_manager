@@ -33,7 +33,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: taskAppBar(),
+      appBar: taskAppBar(
+        onAddTap: () {
+          Navigator.pushNamed(context, '/addTask');
+        },
+        onLogOutTap: () {  },
+        fromHome: true
+      ),
       body: widgetsOptions.elementAt(tabIndex),
       bottomNavigationBar: AppNavBar(
         currentIndex: tabIndex,

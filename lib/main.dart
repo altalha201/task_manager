@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/screens/add_new_task.dart';
 import 'package:task_manager/screens/email_verification_screen.dart';
 import 'package:task_manager/screens/home_screen.dart';
 import 'package:task_manager/screens/pin_verification_screen.dart';
@@ -30,6 +31,7 @@ class TaskManagerApp extends StatelessWidget {
         '/setPass' : (context) => const SetPasswordScreen(),
         '/signUp' : (context) => const SignUpScreen(),
         '/home' : (context) => const HomeScreen(),
+        '/addTask' : (context) => const AddNewTask(),
       },
     );
   }

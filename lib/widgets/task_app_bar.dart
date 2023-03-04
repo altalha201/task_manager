@@ -6,7 +6,10 @@ import '../utilities/urls.dart';
 import '../utilities/utility_functions.dart';
 import 'spacing.dart';
 
-AppBar taskAppBar() {
+AppBar taskAppBar(
+    {VoidCallback? onAddTap,
+    VoidCallback? onLogOutTap,
+    required bool fromHome}) {
   return AppBar(
     backgroundColor: colorGreen,
     flexibleSpace: Container(
@@ -26,16 +29,26 @@ AppBar taskAppBar() {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Name", style: appBarTitle(colorWhite),),
-              Text("Email", style: appBarSubtitle(colorWhite),)
+              Text(
+                "Name",
+                style: appBarTitle(colorWhite),
+              ),
+              Text(
+                "Email",
+                style: appBarSubtitle(colorWhite),
+              )
             ],
           )
         ],
       ),
     ),
-    actions: [
-      IconButton(onPressed: () {}, icon: const Icon(Icons.add_circle_outline)),
-      IconButton(onPressed: () {}, icon: const Icon(Icons.logout)),
-    ],
+    actions: fromHome
+        ? [
+            IconButton(
+                onPressed: onAddTap,
+                icon: const Icon(Icons.add_circle_outline)),
+            IconButton(onPressed: onLogOutTap, icon: const Icon(Icons.logout)),
+          ]
+        : [],
   );
 }

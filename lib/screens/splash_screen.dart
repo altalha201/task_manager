@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:task_manager/data/auth_utils.dart';
 import 'package:task_manager/widgets/screen_background.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,10 +16,21 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
 
     Future.delayed(const Duration(seconds: 2), () {
-      Navigator.pushReplacementNamed(context, "/home");
+      checkUserState();
     });
 
     super.initState();
+  }
+
+  Future<void> checkUserState() async {
+    final navigator = Navigator.of(context);
+    final bool userState = await AuthUtils.checkLoginState();
+    if (userState) {
+      navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+    }
+    else {
+      navigator.pushNamedAndRemoveUntil("/login", (route) => false);
+    }
   }
 
   @override

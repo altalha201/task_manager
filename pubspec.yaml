@@ -41,6 +41,7 @@ dependencies:
   fluttertoast: ^8.2.1
   pin_code_fields: ^7.4.0
   email_validator: ^2.0.1
+  shared_preferences: ^2.0.18
 
 dev_dependencies:
   flutter_test:

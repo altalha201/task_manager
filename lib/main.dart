@@ -7,6 +7,7 @@ import 'package:task_manager/screens/set_password_screen.dart';
 import 'package:task_manager/screens/sign_up_screen.dart';
 import 'package:task_manager/screens/splash_screen.dart';
 import 'package:task_manager/screens/update_profile_screen.dart';
+import 'package:task_manager/utilities/application_colors.dart';
 
 import 'screens/login_screen.dart';
 
@@ -22,6 +23,9 @@ class TaskManagerApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Task Manager',
+      theme: ThemeData(
+        primaryColor: colorGreen
+      ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {

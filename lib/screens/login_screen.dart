@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 
 import 'package:task_manager/widgets/app_text_field.dart';
@@ -25,11 +27,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   bool inProgress = false;
 
-  Future<void> login() async {
-
+  Future<void> gatingLogin() async {
     if (_loginKey.currentState!.validate()) {
       setState(() {
         inProgress = true;
+      });
+      final navigator = Navigator.of(context);
+      final result = await Utility.login(emailEtLs.text.trim(), passEtLs.text);
+      if (result) {
+        navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+      } else {
+        errorToast("Something Went Wrong");
+      }
+      setState(() {
+        inProgress = false;
       });
     }
 
@@ -37,8 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    const proceedIcon = Icons.arrow_circle_right_outlined;
-
     return Scaffold(
       body: Center(
         child: Scaffold(
@@ -80,15 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             verticalSpacing(16.0),
                             AppElevatedButton(
-                              onTap: () => login(),
-                              child: inProgress ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: colorWhite,
-                                ),
-                              ) : const Icon(
-                                proceedIcon,
-                                size: 30,
-                              ),
+                              onTap: () => gatingLogin(),
+                              child: inProgress ? Utility.processing : Utility.proceedIcon
                             ),
                             verticalSpacing(42.0),
                             Container(

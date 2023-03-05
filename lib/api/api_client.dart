@@ -4,9 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:task_manager/utilities/toasts.dart';
 
 class NetworkUtils {
-  Future<dynamic> getMethod(String url, {VoidCallback? onUnAuthorize}) async {
+  Future<dynamic> getMethod(String url, {VoidCallback? onUnAuthorize, String? token}) async {
     try {
-      final http.Response response = await http.get(Uri.parse(url));
+      final http.Response response = await http.get(
+          Uri.parse(url),
+          headers: {"Content-Type": "application/json", 'token' : token ?? ''}
+      );
       if(response.statusCode == 200) {
         return jsonDecode(response.body);
       } else if (response.statusCode == 401) {

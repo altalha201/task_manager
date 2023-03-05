@@ -9,37 +9,45 @@ import 'spacing.dart';
 AppBar taskAppBar(
     {VoidCallback? onAddTap,
     VoidCallback? onLogOutTap,
+    required BuildContext context,
     required bool fromHome}) {
   return AppBar(
     backgroundColor: colorGreen,
-    flexibleSpace: Container(
-      margin: const EdgeInsets.fromLTRB(20, 35, 20, 10),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CircleAvatar(
-            backgroundColor: Colors.transparent,
-            radius: 24,
-            child: ClipOval(
-              child: Image.memory(showBase64Image(Urls.imageUrl)),
-            ),
-          ),
-          horizontalSpacing(10.0),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    flexibleSpace: SafeArea(
+      child: InkWell(
+        onTap: () {
+          Navigator.pushNamed(context, "/profile");
+        },
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Name",
-                style: appBarTitle(colorWhite),
+              CircleAvatar(
+                backgroundColor: Colors.transparent,
+                radius: 24,
+                child: ClipOval(
+                  child: Image.memory(Utility().showBase64Image(Urls.imageUrl)),
+                ),
               ),
-              Text(
-                "Email",
-                style: appBarSubtitle(colorWhite),
+              horizontalSpacing(10.0),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Name",
+                    style: appBarTitle(colorWhite),
+                  ),
+                  Text(
+                    "Email",
+                    style: appBarSubtitle(colorWhite),
+                  )
+                ],
               )
             ],
-          )
-        ],
+          ),
+        ),
       ),
     ),
     actions: fromHome

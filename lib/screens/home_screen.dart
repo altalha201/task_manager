@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.pushNamed(context, '/addTask');
         },
         onLogOutTap: () {  },
-        fromHome: true
+        fromHome: true, context: context
       ),
       body: widgetsOptions.elementAt(tabIndex),
       bottomNavigationBar: AppNavBar(

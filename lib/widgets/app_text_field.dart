@@ -8,6 +8,7 @@ class AppTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool? obscureText;
   final int? maxLine;
+  final bool? readOnly;
   final Function(String?)? validator;
 
   const AppTextField({
@@ -17,12 +18,14 @@ class AppTextField extends StatelessWidget {
     required this.controller,
     this.validator,
     this.maxLine,
+    this.readOnly,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText ?? false,
+      readOnly: readOnly ?? false,
       validator: (value) {
         if (validator != null) {
           return validator!(value);

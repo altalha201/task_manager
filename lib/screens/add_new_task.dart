@@ -21,7 +21,7 @@ class _AddNewTaskState extends State<AddNewTask> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: taskAppBar(fromHome: false),
+      appBar: taskAppBar(fromHome: false, context: context),
       body: ScreenBackground(
         child: Padding(
           padding: const EdgeInsets.all(24.0),

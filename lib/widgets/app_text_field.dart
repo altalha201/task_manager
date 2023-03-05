@@ -7,6 +7,7 @@ class AppTextField extends StatelessWidget {
   final String hint;
   final TextEditingController controller;
   final bool? obscureText;
+  final int? maxLine;
   final Function(String?)? validator;
 
   const AppTextField({
@@ -15,6 +16,7 @@ class AppTextField extends StatelessWidget {
     this.obscureText,
     required this.controller,
     this.validator,
+    this.maxLine,
   }) : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class AppTextField extends StatelessWidget {
         }
         return null;
       },
+      maxLines: maxLine ?? 1,
       decoration: InputDecoration(
           focusedBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: colorGreen, width: 1),

@@ -12,5 +12,5 @@ In this project I try to build a mobile application with API integration.
 - Task management depending on state
 - Custom Appbar design
 - Reusable widgets
-- Custom 
+- Custom Components
 

@@ -27,8 +27,24 @@ class AuthUtils {
     String? token = sharedPreferences.getString('token');
     if (token == null) {
       return false;
+    } else {
+      return true;
     }
-    return true;
+  }
+
+  static Future<void> getAuthData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    token = sharedPreferences.getString('token');
+    firstName = sharedPreferences.getString('firstName');
+    lastName = sharedPreferences.getString('lastName');
+    profilePic = sharedPreferences.getString('profile');
+    mobile = sharedPreferences.getString('phone');
+    email = sharedPreferences.getString('email');
+  }
+
+  static Future<void> clearData() async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    await sharedPreferences.clear();
   }
 
 }

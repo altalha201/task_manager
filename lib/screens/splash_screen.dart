@@ -26,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final navigator = Navigator.of(context);
     final bool userState = await AuthUtils.checkLoginState();
     if (userState) {
+      await AuthUtils.getAuthData();
       navigator.pushNamedAndRemoveUntil("/home", (route) => false);
     }
     else {

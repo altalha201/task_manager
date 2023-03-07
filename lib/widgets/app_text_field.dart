@@ -25,6 +25,7 @@ class AppTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       obscureText: obscureText ?? false,
+      controller: controller,
       readOnly: readOnly ?? false,
       validator: (value) {
         if (validator != null) {

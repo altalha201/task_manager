@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/utility_functions.dart';
@@ -68,7 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             verticalSpacing(24.0),
                             AppTextField(
                                 hint: "Email",
-                                controller: TextEditingController(),
+                                controller: emailEtLs,
                                 validator: (value) {
                                   if (value?.trim().isEmpty ?? true) {
                                     return "Enter Your Email";
@@ -79,7 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             verticalSpacing(16.0),
                             AppTextField(
                                 hint: "Password",
-                                controller: TextEditingController(),
+                                obscureText: true,
+                                controller: passEtLs,
                                 validator: (value) {
                                   if ((value?.isEmpty ?? true) || ((value?.length ?? 0) < 8)) {
                                     return "Enter Password with 8 or more characters";

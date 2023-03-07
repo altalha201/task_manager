@@ -1,6 +1,6 @@
 # task_manager (Task Manger With Flutter)
 
-[Alt Text](git_components/task%20manager%20banner.png raw=true)
+<img src="/git_components/task%manager%banner.png" alt="Alt text" title="Optional title">
 
 In this project I try to build a mobile application with API integration.
 

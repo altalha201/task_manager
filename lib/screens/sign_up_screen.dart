@@ -43,6 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       setState(() {
         inProgress = true;
       });
+      final navigator = Navigator.of(context);
       final result = await NetworkUtils().postMethod(Urls.registerURL, body: {
         "email": emailController.text.trim(),
         'mobile': phoneController.text.trim(),
@@ -51,16 +52,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'lastName': lastNameController.text,
       });
 
-      setState(() {
-        inProgress = false;
-      });
 
       if (result != null && result['status'] == "success") {
-        clearAll();
-        successToast("Registration Complete");
+        final login = await Utility.login(emailController.text.trim(), passwordController.text);
+        if (login) {
+          navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+        } else {
+          errorToast("Something went wrong while login. Try From Login later");
+        }
       } else {
         errorToast("Something went wrong try again");
       }
+      setState(() {
+        inProgress = false;
+      });
     }
   }
 

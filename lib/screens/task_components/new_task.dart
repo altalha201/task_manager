@@ -1,14 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/widgets/spacing.dart';
-import 'package:task_manager/widgets/task_list_item.dart';
 
 import '../../api/api_client.dart';
-import '../../utilities/toasts.dart';
-import '../../utilities/urls.dart';
+
 import '../../utilities/utility_functions.dart';
 import '../../widgets/dashboard_item.dart';
+import '../../widgets/task_list_view.dart';
 
 class NewTask extends StatefulWidget {
   const NewTask({Key? key}) : super(key: key);
@@ -18,102 +15,109 @@ class NewTask extends StatefulWidget {
 }
 
 class _NewTaskState extends State<NewTask> {
-  bool inProgress = false;
+  bool inProgress = true;
+  bool countInProgress = true;
 
-  var counts = [];
-  int newCount = 0, progressCount = 0, completedCount = 0, canceledCount = 0;
+  int newTasks = 0;
+  int progressingTask = 0;
+  int completedTask = 0;
+  int canceledTask = 0;
 
-  Future<void> getStatusCount() async {
+  List taskItems = [];
+  List counts = [];
+
+  @override
+  void initState() {
+    callData();
+    getTaskCounts();
+    super.initState();
+  }
+
+  callData() async {
     setState(() {
       inProgress = true;
     });
-    final response = await NetworkUtils().getMethod(Urls.taskCounterURL);
-    log(response ?? "Response Not Found");
-    /*log(response);
-    if (response != null && response["status"] == "success") {
-      counts = response["data"];
-      log(response["data"]);
-      for (var element in counts) {
-        switch (element["_id"]) {
-          case "New":
-            newCount = element["sum"];
-            break;
-          case "Progress":
-            progressCount = element["sum"];
-            break;
-          case "Completed":
-            completedCount = element["sum"];
-            break;
-          default:
-            canceledCount = element["sum"];
-            break;
-        }
-      }
-    } else {
-      successToast("Try again");
-    }*/
+    var data = await NetworkUtils().taskListRequest('New');
     setState(() {
       inProgress = false;
+      taskItems = data;
     });
   }
 
-  @override
-  initState() {
-    super.initState();
-
-    getStatusCount();
+  getTaskCounts() async {
+    setState(() {
+      countInProgress = true;
+    });
+    var data = await NetworkUtils().taskCount();
+    setState(() {
+      counts = data;
+      for (var element in counts) {
+        switch (element["_id"]) {
+          case "New": {
+            newTasks = element["sum"];
+            break;
+          }
+          case "Completed" : {
+            completedTask = element["sum"];
+            break;
+          }
+          case "Progress" : {
+            progressingTask = element["sum"];
+            break;
+          }
+          case "Canceled" : {
+            canceledTask = element["sum"];
+            break;
+          }
+        }
+      }
+      countInProgress = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                  child: DashboardItem(
-                    numberOfTask: newCount,
-                    type: 'New',
-              )),
-              Expanded(
-                  child: DashboardItem(
-                    numberOfTask: progressCount,
-                    type: 'Progress',
-              )),
-              Expanded(
-                  child: DashboardItem(
-                    numberOfTask: completedCount,
-                    type: 'Completed',
-              )),
-              Expanded(
-                  child: DashboardItem(
-                    numberOfTask: canceledCount,
-                    type: 'Canceled',
-              )),
-            ],
-          ),
+          Container(
+              child: countInProgress
+                  ? Utility.processingGreen
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                            child: DashboardItem(
+                          numberOfTask: newTasks ,
+                          type: 'New',
+                        )),
+                        Expanded(
+                            child: DashboardItem(
+                          numberOfTask: progressingTask,
+                          type: 'Progress',
+                        )),
+                        Expanded(
+                            child: DashboardItem(
+                          numberOfTask: completedTask,
+                          type: 'Completed',
+                        )),
+                        Expanded(
+                            child: DashboardItem(
+                          numberOfTask: canceledTask,
+                          type: 'Canceled',
+                        )),
+                      ],
+                    )),
           verticalSpacing(10.0),
           Expanded(
               child: inProgress
                   ? Utility.processingGreen
                   : RefreshIndicator(
-                      onRefresh: () async {},
-                      child: ListView.builder(
-                          itemCount: 2,
-                          itemBuilder: (context, index) {
-                            return TaskListItem(
-                              title: 'New Task',
-                              description: 'New Task List Design Test',
-                              date: '07/03/2023',
-                              type: 'New',
-                              onEditTap: () {},
-                              onDeleteTap: () {},
-                            );
-                          }),
+                      onRefresh: () async {
+                        callData();
+                      },
+                      child: TaskListView(taskItems: taskItems),
                     )),
         ],
       ),

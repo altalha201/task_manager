@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../api/api_client.dart';
 import '../../utilities/application_colors.dart';
-import '../../widgets/task_list_item.dart';
+import '../../widgets/task_list_view.dart';
 
 class ProgressTask extends StatefulWidget {
   const ProgressTask({Key? key}) : super(key: key);
@@ -12,7 +13,25 @@ class ProgressTask extends StatefulWidget {
 
 class _ProgressTaskState extends State<ProgressTask> {
 
-  bool inProgress = false;
+  bool inProgress = true;
+
+  List taskItems = [];
+
+  @override
+  void initState() {
+    callData();
+    super.initState();
+  }
+
+  callData() async {
+    setState(() {inProgress = true;});
+    var data = await NetworkUtils().taskListRequest('Progress');
+    setState(() {
+      inProgress = false;
+      taskItems = data;
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,20 +44,10 @@ class _ProgressTaskState extends State<ProgressTask> {
         ),
       )
           : RefreshIndicator(
-        onRefresh: () async {},
-        child: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (context, index) {
-              return TaskListItem(
-                title: 'New Task',
-                description: 'New Task List Design Test',
-                date: '07/03/2023',
-                type: 'Progress',
-                onEditTap: () {},
-                onDeleteTap: () {},
-              );
-            }
-        ),
+        onRefresh: () async {
+          callData();
+        },
+        child: TaskListView(taskItems: taskItems),
       ),
     );
   }

@@ -3,6 +3,8 @@ import 'package:task_manager/screens/task_components/canceled_task.dart';
 import 'package:task_manager/screens/task_components/completed_task.dart';
 import 'package:task_manager/screens/task_components/new_task.dart';
 import 'package:task_manager/screens/task_components/progress_task.dart';
+import 'package:task_manager/utilities/application_colors.dart';
+import 'package:task_manager/utilities/text_styles.dart';
 
 import 'package:task_manager/widgets/app_nav_bar.dart';
 import 'package:task_manager/widgets/profile_bar.dart';
@@ -49,9 +51,33 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.pushNamed(context, '/addTask');
                 },
                 onLogOutTap: () async {
-                  final navigator = Navigator.of(context);
-                  await AuthUtils.clearData();
-                  navigator.pushNamedAndRemoveUntil("/login", (route) => false);
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return Expanded(
+                            child: AlertDialog(
+                              title: const Text("Logout!"),
+                              content: const Text("Want to logout?"),
+                              actions: [
+                                TextButton(
+                                    onPressed: () async {
+                                      final navigator = Navigator.of(context);
+                                      await AuthUtils.clearData();
+                                      navigator.pushNamedAndRemoveUntil("/login", (route) => false);
+                                    },
+                                    child: Text("Yes", style: authTextButton(colorRed),)
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("No", style: authTextButton(colorGreen),)
+                                )
+                              ],
+                            ),
+                        );
+                      }
+                  );
                 },
               ),
               Expanded(child: widgetsOptions.elementAt(tabIndex))

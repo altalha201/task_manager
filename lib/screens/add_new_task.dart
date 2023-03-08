@@ -35,7 +35,7 @@ class _AddNewTaskState extends State<AddNewTask> {
       });
       final navigator = Navigator.of(context);
       final result = await NetworkUtils().postMethod(
-        Urls.newTaskURL,
+        Urls.addTaskURL,
         body: {
           "title":title.text,
           "description":description.text,

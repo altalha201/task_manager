@@ -1,11 +1,10 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/urls.dart';
 
-import '../api/api_client.dart';
+import '../api/network_utils.dart';
 import '../data/auth_utils.dart';
 import 'application_colors.dart';
 

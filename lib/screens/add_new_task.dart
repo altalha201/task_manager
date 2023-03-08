@@ -7,7 +7,7 @@ import 'package:task_manager/widgets/screen_background.dart';
 import 'package:task_manager/widgets/spacing.dart';
 import 'package:task_manager/widgets/profile_bar.dart';
 
-import '../api/api_client.dart';
+import '../api/network_utils.dart';
 import '../data/auth_utils.dart';
 import '../utilities/toasts.dart';
 import '../utilities/urls.dart';

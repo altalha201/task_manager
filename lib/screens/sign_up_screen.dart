@@ -1,6 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:task_manager/api/api_client.dart';
+import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';

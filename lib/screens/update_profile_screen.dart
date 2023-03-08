@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:task_manager/api/network_utils.dart';
+import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/widgets/screen_background.dart';
 import 'package:task_manager/widgets/profile_bar.dart';
 import 'package:image_picker/image_picker.dart';
@@ -49,20 +54,24 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               children: [
                 ListTile(
                   onTap: () async {
+                    var navigator = Navigator.of(context);
                     pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
                     if (pickedImage != null) {
                       setState(() {});
                     }
+                    navigator.pop();
                   },
                   leading: const Icon(Icons.camera_alt_outlined, size: 34, color: colorDarkBlue,),
                   title: const Text("Camera"),
                 ),
                 ListTile(
                   onTap: () async {
+                    var navigator = Navigator.of(context);
                     pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
                     if (pickedImage != null) {
                       setState(() {});
                     }
+                    navigator.pop();
                   },
                   leading: const Icon(Icons.image_outlined, size: 34, color: colorDarkBlue,),
                   title: const Text("Gallery"),
@@ -79,6 +88,37 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           );
         }
     );
+  }
+
+  Future<void> updateProfile() async {
+
+    Map<String, String> requestBody = {
+      'firstName':firstNameController.text,
+      'lastName':lastNameController.text,
+      'mobile':phoneController.text.trim(),
+    };
+
+    if (pickedImage != null) {
+      List<int> imageBytes = await pickedImage!.readAsBytes();
+      base64Image = base64Encode(imageBytes);
+    }
+
+    if (passwordController.text.isNotEmpty) {
+      requestBody['password'] = passwordController.text;
+    }
+
+    final response = await NetworkUtils().postMethod(
+      Urls.profileUpdateURL,
+      body: requestBody
+    );
+    if (response != null && response['status'] == "success") {
+      successToast("Profile update");
+      setState(() {
+        AuthUtils.firstName = firstNameController.text;
+        AuthUtils.lastName = lastNameController.text;
+        AuthUtils.mobile = phoneController.text.trim();
+      });
+    }
   }
 
   @override
@@ -192,7 +232,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         ),
                         verticalSpacing(24.0),
                         AppElevatedButton(
-                          onTap: () {},
+                          onTap: () {
+                            updateProfile();
+                          },
                           child: Text("Update", style: authButton(colorWhite),)
                         ),
 

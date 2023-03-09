@@ -13,6 +13,9 @@ class NetworkUtils {
     "Content-Type":"application/json",
     "token":AuthUtils.token ?? ""
   };
+  final header = {
+    "Content-Type":"application/json"
+  };
 
   Future<dynamic> postMethod(String url,
       {Map<String, String>? body,
@@ -94,6 +97,48 @@ class NetworkUtils {
     var responseCode = response.statusCode;
     var responseBody = json.decode(response.body);
 
+    if (responseCode == 200 && responseBody['status'] == "success") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> emailVerification(email) async {
+    var url = Uri.parse(Urls.recoveryEmail(email));
+    var response = await http.get(url, headers: tokenHeader);
+
+    var responseCode = response.statusCode;
+    var responseBody = json.decode(response.body);
+
+    if (responseCode == 200 && responseBody['status'] == "success") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> pinVerification(email, otp) async {
+    var url = Uri.parse(Urls.otpURL(email, otp));
+    var response = await http.get(url, headers: tokenHeader);
+
+    var responseCode = response.statusCode;
+    var responseBody = json.decode(response.body);
+
+    if (responseCode == 200 && responseBody['status'] == "success") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> setPin(body) async {
+    var url = Uri.parse(Urls.recovaryPassURL);
+    // log(body);
+    var response = await http.post(url, headers: header, body: jsonEncode(body));
+    var responseCode = response.statusCode;
+    var responseBody = json.decode(response.body);
+    log(responseCode.toString());
     if (responseCode == 200 && responseBody['status'] == "success") {
       return true;
     } else {

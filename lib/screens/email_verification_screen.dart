@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/api/network_utils.dart';
+import 'package:task_manager/screens/pin_verification_screen.dart';
 import 'package:task_manager/utilities/text_styles.dart';
+import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 import 'package:task_manager/widgets/app_text_field.dart';
 import 'package:task_manager/widgets/dual_text_widget.dart';
@@ -16,11 +20,12 @@ class EmailVerificationScreen extends StatefulWidget {
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
+
+  final TextEditingController _email = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     
-    const String subtitle = "A 6-digit verification cod will send to your email address";
-    const proceedIcon = Icons.arrow_circle_right_outlined;
 
     return Scaffold(
       body: ScreenBackground(
@@ -33,15 +38,31 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               children: [
                 Text("Your Email Address", style: authHeadline(colorDarkBlue),),
                 verticalSpacing(8.0),
-                Text(subtitle, style: authSubtitle(colorLightGray),),
+                Text(Utility.verificationString, style: authSubtitle(colorLightGray),),
                 verticalSpacing(24.0),
-                AppTextField(hint: "Email", controller: TextEditingController()),
+                AppTextField(hint: "Email", controller: _email),
                 verticalSpacing(16.0),
                 AppElevatedButton(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/pinVerify');
+                    onTap: () async {
+                      if (_email.text.trim().isNotEmpty) {
+                        var navigator = Navigator.of(context);
+                        final response = await NetworkUtils().emailVerification(_email.text.trim());
+                        if (response) {
+                          successToast("OTP Send to Email");
+                          navigator.push(
+                              MaterialPageRoute(
+                                  builder: (context) => PinVerificationScreen(
+                                      email: _email.text.trim())));
+                        }
+                        else {
+                          errorToast("Enter a valid email");
+                        }
+                      }
+                      else {
+                        errorToast("Enter email");
+                      }
                     },
-                    child: const Icon(proceedIcon)
+                    child: Utility.proceedIcon
                 ),
                 verticalSpacing(42.0),
                 DualTextWidget(

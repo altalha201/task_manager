@@ -74,94 +74,96 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return Scaffold(
       body: ScreenBackground(
         child: SafeArea(
-            child: Container(
-              height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(24.0),
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Join With Us",
-                        style: authHeadline(colorDarkBlue),
-                      ),
-                      verticalSpacing(24.0),
-                      AppTextField(
-                        hint: "Email",
-                        controller: emailController,
-                        validator: (value) {
-                          if (value?.trim().isEmpty ?? true) {
-                            return "Enter Your Email";
-                          } else if (!EmailValidator.validate(value!.trim())) {
-                            return "Enter a valid Email";
-                          }
-                          return null;
-                        },
-                      ),
-                      verticalSpacing(16.0),
-                      AppTextField(
-                        hint: "First Name",
-                        controller: firstNameController,
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return "Enter Your First Name";
-                          }
-                          return null;
-                        },
-                      ),
-                      verticalSpacing(16.0),
-                      AppTextField(
-                        hint: "Last Name",
-                        controller: lastNameController,
-                        validator: (value) {
-                          if (value?.isEmpty ?? true) {
-                            return "Enter Your Last Name";
-                          }
-                          return null;
-                        },
-                      ),
-                      verticalSpacing(16.0),
-                      AppTextField(
-                        hint: "Mobile Number",
-                        controller: phoneController,
-                        validator: (value) {
-                          if (value?.trim().isEmpty ?? true) {
-                            return "Enter Your Phone Number";
-                          }
-                          return null;
-                        },
-                      ),
-                      verticalSpacing(16.0),
-                      AppTextField(
-                        hint: "Password",
-                        controller: passwordController,
-                        obscureText: true,
-                        validator: (value) {
-                          if ((value?.isEmpty ?? true) &&
-                              ((value?.length ?? 0) < 8)) {
-                            return "Enter Password with 8 or more characters";
-                          }
-                          return null;
-                        },
-                      ),
-                      verticalSpacing(16.0),
-                      AppElevatedButton(
-                          onTap: () => fromFilled(),
-                          child: inProgress
-                              ? Utility.processing
-                              : Utility.proceedIcon),
-                      verticalSpacing(42.0),
-                      DualTextWidget(
-                        question: "Have an account?",
-                        todo: "Sign In",
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                      )
-                    ],
+            child: Center(
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                padding: const EdgeInsets.all(24.0),
+                child: Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Join With Us",
+                          style: authHeadline(colorDarkBlue),
+                        ),
+                        verticalSpacing(24.0),
+                        AppTextField(
+                          hint: "Email",
+                          controller: emailController,
+                          validator: (value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return "Enter Your Email";
+                            } else if (!EmailValidator.validate(value!.trim())) {
+                              return "Enter a valid Email";
+                            }
+                            return null;
+                          },
+                        ),
+                        verticalSpacing(16.0),
+                        AppTextField(
+                          hint: "First Name",
+                          controller: firstNameController,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return "Enter Your First Name";
+                            }
+                            return null;
+                          },
+                        ),
+                        verticalSpacing(16.0),
+                        AppTextField(
+                          hint: "Last Name",
+                          controller: lastNameController,
+                          validator: (value) {
+                            if (value?.isEmpty ?? true) {
+                              return "Enter Your Last Name";
+                            }
+                            return null;
+                          },
+                        ),
+                        verticalSpacing(16.0),
+                        AppTextField(
+                          hint: "Mobile Number",
+                          controller: phoneController,
+                          validator: (value) {
+                            if (value?.trim().isEmpty ?? true) {
+                              return "Enter Your Phone Number";
+                            }
+                            return null;
+                          },
+                        ),
+                        verticalSpacing(16.0),
+                        AppTextField(
+                          hint: "Password",
+                          controller: passwordController,
+                          obscureText: true,
+                          validator: (value) {
+                            if ((value?.isEmpty ?? true) &&
+                                ((value?.length ?? 0) < 8)) {
+                              return "Enter Password with 8 or more characters";
+                            }
+                            return null;
+                          },
+                        ),
+                        verticalSpacing(16.0),
+                        AppElevatedButton(
+                            onTap: () => fromFilled(),
+                            child: inProgress
+                                ? Utility.processing
+                                : Utility.proceedIcon),
+                        verticalSpacing(42.0),
+                        DualTextWidget(
+                          question: "Have an account?",
+                          todo: "Sign In",
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

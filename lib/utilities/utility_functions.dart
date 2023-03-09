@@ -10,6 +10,8 @@ import 'application_colors.dart';
 
 class Utility {
 
+  static String verificationString = "A 6-digit verification cod will send to your email address";
+
   static Icon proceedIcon = const Icon(
     Icons.arrow_circle_right_outlined,
     size: 30,

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/application_colors.dart';
@@ -68,9 +66,6 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   verticalSpacing(16.0),
                   AppElevatedButton(
                     onTap: () async {
-                      log(widget.email);
-                      log(widget.otp);
-
                       if (_formKey.currentState!.validate()) {
                         var navigator = Navigator.of(context);
                         final response = await NetworkUtils().setPin(

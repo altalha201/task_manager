@@ -25,7 +25,6 @@ class NetworkUtils {
       final http.Response response = await http.post(Uri.parse(url),
           headers: tokenHeader,
           body: jsonEncode(body));
-      log(response.body);
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else if (response.statusCode == 401) {
@@ -133,8 +132,7 @@ class NetworkUtils {
   }
 
   Future<bool> setPin(body) async {
-    var url = Uri.parse(Urls.recovaryPassURL);
-    // log(body);
+    var url = Uri.parse(Urls.recoverPassURL);
     var response = await http.post(url, headers: header, body: jsonEncode(body));
     var responseCode = response.statusCode;
     var responseBody = json.decode(response.body);

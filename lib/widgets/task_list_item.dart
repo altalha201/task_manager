@@ -4,6 +4,7 @@ import 'package:task_manager/widgets/spacing.dart';
 
 import '../utilities/application_colors.dart';
 
+// ignore: must_be_immutable
 class TaskListItem extends StatelessWidget {
   TaskListItem(
       {Key? key,

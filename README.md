@@ -1,6 +1,6 @@
-# task_manager (Task Manger With Flutter)
-
 ![Alt Text](git_components/task%20manager%20banner.png)
+
+# task_manager (Task Manger With Flutter)
 
 In this project I try to build a mobile application with API integration.
 

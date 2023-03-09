@@ -101,6 +101,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     if (pickedImage != null) {
       List<int> imageBytes = await pickedImage!.readAsBytes();
       base64Image = base64Encode(imageBytes);
+      requestBody['photo'] = base64Image ?? "";
+      setState(() {
+        AuthUtils.profilePic = base64Image ?? AuthUtils.profilePic;
+      });
     }
 
     if (passwordController.text.isNotEmpty) {
@@ -167,10 +171,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                         bottomRight: Radius.circular(8),
                                       ),
                                     ),
-                                    child: const Text(
-                                      "",
+                                    child: Text(
+                                      pickedImage?.name ?? "",
                                       maxLines: 1,
-                                      style: TextStyle(overflow: TextOverflow.ellipsis),
+                                      style: const TextStyle(overflow: TextOverflow.ellipsis),
                                     ),
                                   ),
                               )

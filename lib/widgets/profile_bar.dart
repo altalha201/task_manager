@@ -46,7 +46,7 @@ class _ProfileBarState extends State<ProfileBar> {
                   backgroundColor: Colors.transparent,
                   radius: 24,
                   child: ClipOval(
-                    child: Image.memory(Utility.showBase64Image(imgTxt)),
+                    child: Image.memory(Utility.showBase64Image(imgTxt), fit: BoxFit.fitWidth, width: 48,),
                   ),
                 ),
                 horizontalSpacing(10.0),

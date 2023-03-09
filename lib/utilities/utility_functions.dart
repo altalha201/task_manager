@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -30,8 +31,7 @@ class Utility {
     );
 
   static showBase64Image(base64String) {
-    UriData? data = Uri.parse(base64String).data;
-    Uint8List image = data!.contentAsBytes();
+    Uint8List image = base64Decode(base64String);
     return image;
   }
 

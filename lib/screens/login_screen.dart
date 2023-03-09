@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/utility_functions.dart';

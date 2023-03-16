@@ -28,7 +28,7 @@ class _CompletedTaskState extends State<CompletedTask> {
 
   callData() async {
     setState(() {inProgress = true;});
-    var data = await NetworkUtils().taskListRequest('Completed');
+    var data = await NetworkUtils().taskListRequest('Completed', context: context);
     setState(() {
       inProgress = false;
       taskItems = data;

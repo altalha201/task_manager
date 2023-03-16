@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ui';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/urls.dart';
+import 'package:task_manager/utilities/utility_functions.dart';
 
 import '../data/auth_utils.dart';
 
@@ -41,7 +43,7 @@ class NetworkUtils {
     }
   }
 
-  Future<List> taskListRequest(status) async {
+  Future<dynamic> taskListRequest(status, {BuildContext? context}) async {
     var url = Uri.parse("${Urls.taskListURL}$status");
     var response = await http.get(
         url,
@@ -52,6 +54,8 @@ class NetworkUtils {
 
     if(responseCode == 200 && responseBody['status'] == "success") {
       return responseBody['data'];
+    } else if(responseCode == 401) {
+      Utility.moveToLoginPage(context!);
     } else {
       errorToast("Request fail");
       return [];

@@ -40,7 +40,7 @@ class _NewTaskState extends State<NewTask> {
     setState(() {
       inProgress = true;
     });
-    var data = await NetworkUtils().taskListRequest('New');
+    var data = await NetworkUtils().taskListRequest('New', context: context);
     setState(() {
       inProgress = false;
       taskItems = data;

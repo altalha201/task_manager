@@ -28,7 +28,7 @@ class _ProgressTaskState extends State<ProgressTask> {
 
   callData() async {
     setState(() {inProgress = true;});
-    var data = await NetworkUtils().taskListRequest('Progress');
+    var data = await NetworkUtils().taskListRequest('Progress', context: context);
     setState(() {
       inProgress = false;
       taskItems = data;

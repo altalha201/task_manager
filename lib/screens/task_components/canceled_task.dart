@@ -28,7 +28,7 @@ class _CanceledTaskState extends State<CanceledTask> {
 
   callData() async {
     setState(() {inProgress = true;});
-    var data = await NetworkUtils().taskListRequest('Canceled');
+    var data = await NetworkUtils().taskListRequest('Canceled', context: context);
     setState(() {
       inProgress = false;
       taskItems = data;

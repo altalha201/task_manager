@@ -31,8 +31,21 @@ class Utility {
     );
 
   static showBase64Image(base64String) {
-    Uint8List image = base64Decode(base64String);
+    UriData? data = Uri.parse(base64String).data;
+    Uint8List image;
+    if(data != null) {
+      image = data.contentAsBytes();
+    } else {
+      image = base64Decode(base64String);
+    }
     return image;
+  }
+
+  static Future<void> moveToLoginPage(context) async {
+    final navigator = Navigator.of(context);
+    await AuthUtils.clearData();
+    navigator.pushNamedAndRemoveUntil(
+        "/login", (route) => false);
   }
 
   static Future<bool> login(String email, String pass) async {

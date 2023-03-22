@@ -8,10 +8,10 @@ import 'package:task_manager/utilities/utility_functions.dart';
 
 
 import 'package:task_manager/widgets/app_nav_bar.dart';
-import 'package:task_manager/widgets/profile_bar.dart';
 import 'package:task_manager/widgets/screen_background.dart';
 
 import '../utilities/dialog.dart';
+import '../widgets/application_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -38,37 +38,31 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: applicationBar(
+        fromHome: true,
+        onProfileTap: () {
+          Get.toNamed("/profile");
+        },
+        onAddTap: () {
+          Get.toNamed("/addTask");
+        },
+        onLogOutTap: () async {
+          await buildShowDialog(context,
+          title: 'Logout!',
+          message: "Want to logout?",
+          positiveButtonText: 'No',
+          negativeButtonText: 'Yes',
+          positiveTap: () {
+            Navigator.pop(context);
+          },
+          negativeTap: () {
+            Utility.moveToLoginPage();
+          },
+          );
+        }
+      ),
       body: ScreenBackground(
-        child: SafeArea(
-          child: Column(
-            children: [
-              ProfileBar(
-                fromHome: true,
-                onProfileTap: () {
-                  Get.toNamed("/profile");
-                },
-                onAddTap: () {
-                  Get.toNamed("/addTask");
-                },
-                onLogOutTap: () async {
-                  await buildShowDialog(context,
-                      title: 'Logout!',
-                      message: "Want to logout?",
-                      positiveButtonText: 'No',
-                      negativeButtonText: 'Yes',
-                      positiveTap: () {
-                        Navigator.pop(context);
-                      },
-                      negativeTap: () {
-                        Utility.moveToLoginPage();
-                      },
-                  );
-                },
-              ),
-              Expanded(child: widgetsOptions.elementAt(tabIndex))
-            ],
-          ),
-        ),
+        child: Expanded(child: widgetsOptions.elementAt(tabIndex)),
       ),
       bottomNavigationBar: AppNavBar(
         currentIndex: tabIndex,

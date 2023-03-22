@@ -49,6 +49,17 @@ class Utility {
     Get.offAllNamed("/login");
   }
 
+  static Future<void> deleteItem(String id, {VoidCallback? onSuccess}) async {
+    var response = await NetworkUtils().getMethod(url: Urls.deleteTaskURL(id));
+
+    if (response['status'] == "success") {
+      onSuccess!();
+      successToast("Task Delete Success");
+    } else {
+      errorToast("Task delete failed!");
+    }
+  }
+
   static Future<bool> login(String email, String pass) async {
 
     final result = await NetworkUtils().postMethod(

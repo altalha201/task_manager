@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 
 import '../api/network_utils.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/spacing.dart';
 import 'application_colors.dart';
+import 'urls.dart';
 
 Future<dynamic> taskChangeStatus(BuildContext context, {
   required String currentState,
@@ -75,12 +77,11 @@ Future<dynamic> taskChangeStatus(BuildContext context, {
                     verticalSpacing(25.0),
                     AppElevatedButton(
                         onTap: () async {
-                          final navigator = Navigator.of(context);
-                          final response = await NetworkUtils().updateTaskStatus(taskID, stateValue);
-                          if (response) {
+                          final response = await NetworkUtils().getMethod(url: Urls.updateTaskUrl(taskID, stateValue));
+                          if (response["status"] == "success") {
                             onComplete();
-                            navigator.pop();
                           }
+                          Get.back();
                         },
                         child: Text("Update", style: authButton(colorWhite),)
                     )

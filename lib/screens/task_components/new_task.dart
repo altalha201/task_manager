@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/widgets/spacing.dart';
 
 import '../../api/network_utils.dart';
@@ -27,7 +27,6 @@ class _NewTaskState extends State<NewTask> {
   int canceledTask = 0;
 
   List taskItems = [];
-  List counts = [];
 
   @override
   void initState() {
@@ -37,14 +36,15 @@ class _NewTaskState extends State<NewTask> {
   }
 
   callData() async {
-    setState(() {
-      inProgress = true;
-    });
-    var data = await NetworkUtils().taskListRequest('New', context: context);
-    setState(() {
-      inProgress = false;
+    setState(() {inProgress = true;});
+
+    var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}New");
+    if (response["status"] == "success") {
+      var data = response["data"];
       taskItems = data;
-    });
+    }
+
+    setState(() {inProgress = false;});
   }
 
   Future<void> deleteItem(id) async {
@@ -52,25 +52,26 @@ class _NewTaskState extends State<NewTask> {
       inProgress = true;
       countInProgress = true;
     });
-    var result = await NetworkUtils().deleteTask(id);
-    if (result) {
-      callData();
-      getTaskCounts();
-      successToast("Task Delete Success");
-    } else {
-      errorToast("Task delete failed!");
-    }
+
+    Utility.deleteItem(
+      id,
+      onSuccess: () {
+        callData();
+        getTaskCounts();
+      }
+    );
   }
 
   getTaskCounts() async {
-    setState(() {
-      countInProgress = true;
-    });
-    var data = await NetworkUtils().taskCount();
-    setState(() {
-      counts = data;
+    setState(() {countInProgress = true;});
+
+    var response = await NetworkUtils().getMethod(url: Urls.taskCounterURL);
+
+    if (response['status'] == "success") {
+      var data = response['data'];
       newTasks = 0; completedTask = 0; progressingTask = 0; canceledTask = 0;
-      for (var element in counts) {
+
+      for (var element in data) {
         switch (element["_id"]) {
           case "New": {
             newTasks = element["sum"];
@@ -90,8 +91,9 @@ class _NewTaskState extends State<NewTask> {
           }
         }
       }
-      countInProgress = false;
-    });
+    }
+
+    setState(() {countInProgress = false;});
   }
 
   @override

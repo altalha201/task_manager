@@ -4,6 +4,7 @@ import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 import 'package:task_manager/widgets/app_text_field.dart';
@@ -71,14 +72,15 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   AppElevatedButton(
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        final response = await NetworkUtils().setPin(
-                          {
+                        final response = await NetworkUtils().postMethod(
+                          Urls.recoverPassURL,
+                          body : {
                             "email":getEmail,
                             "OTP":getOTP,
                             "password":_newPasswordETController.text
                           }
                         );
-                        if(response) {
+                        if(response["status"] == "success") {
                           successToast("Password Reset");
                           Get.offAllNamed("/login");
                         }

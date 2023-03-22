@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/urls.dart';
+import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/screen_background.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -33,6 +34,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   XFile? pickedImage;
   String? base64Image;
+
+  bool inProgress = false;
 
   @override
   initState() {
@@ -93,6 +96,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
   Future<void> updateProfile() async {
 
+    setState(() {
+      inProgress = true;
+    });
+
     Map<String, String> requestBody = {
       'firstName':firstNameController.text,
       'lastName':lastNameController.text,
@@ -125,6 +132,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       });
       Get.offAllNamed("/home");
     }
+
+    setState(() {
+      inProgress = false;
+    });
   }
 
   @override
@@ -237,7 +248,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   onTap: () {
                     updateProfile();
                   },
-                  child: Text("Update", style: authButton(colorWhite),)
+                  child: inProgress
+                      ? Utility.processing
+                      : Text("Update", style: authButton(colorWhite),)
                 ),
 
               ],

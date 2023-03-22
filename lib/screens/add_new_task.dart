@@ -8,7 +8,6 @@ import 'package:task_manager/widgets/screen_background.dart';
 import 'package:task_manager/widgets/spacing.dart';
 
 import '../api/network_utils.dart';
-import '../data/auth_utils.dart';
 import '../utilities/toasts.dart';
 import '../utilities/urls.dart';
 import '../utilities/utility_functions.dart';
@@ -43,8 +42,7 @@ class _AddNewTaskState extends State<AddNewTask> {
         },
         onUnAuthorize: () {
           errorToast("Please login again");
-          AuthUtils.clearData();
-          Get.offAllNamed("/login");
+          Utility.moveToLoginPage();
         }
       );
       if (result != null && result["status"] == "success") {

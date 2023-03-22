@@ -5,6 +5,7 @@ import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 import 'package:task_manager/widgets/screen_background.dart';
@@ -72,8 +73,8 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                 AppElevatedButton(
                     onTap: () async {
                       if (_pinField.text.trim().isNotEmpty) {
-                        final response = await NetworkUtils().pinVerification(getEmail, _pinField.text.trim());
-                        if (response) {
+                        final response = await NetworkUtils().getMethod(url: Urls.otpURL(getEmail, _pinField.text.trim()));
+                        if (response["status"] == "success") {
                           Get.toNamed("/setPass", arguments: {"email" : getEmail, "pin" : _pinField.text.trim()});
                         }
                         else {

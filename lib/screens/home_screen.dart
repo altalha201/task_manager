@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
           positiveButtonText: 'No',
           negativeButtonText: 'Yes',
           positiveTap: () {
-            Navigator.pop(context);
+            Get.back();
           },
           negativeTap: () {
             Utility.moveToLoginPage();
@@ -62,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       ),
       body: ScreenBackground(
-        child: Expanded(child: widgetsOptions.elementAt(tabIndex)),
+        child: widgetsOptions.elementAt(tabIndex),
       ),
       bottomNavigationBar: AppNavBar(
         currentIndex: tabIndex,

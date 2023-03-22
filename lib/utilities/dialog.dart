@@ -13,25 +13,23 @@ buildShowDialog(BuildContext context,
   showDialog(
       context: context,
       builder: (context) {
-        return Expanded(
-          child: AlertDialog(
-            title: Text(title),
-            content: Text(message ?? ""),
-            actions: [
-              TextButton(
-                  onPressed: negativeTap,
-                  child: Text(
-                    negativeButtonText,
-                    style: authTextButton(colorRed),
-                  )),
-              TextButton(
-                  onPressed: positiveTap,
-                  child: Text(
-                    positiveButtonText,
-                    style: authTextButton(colorGreen),
-                  ))
-            ],
-          ),
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message ?? ""),
+          actions: [
+            TextButton(
+                onPressed: negativeTap,
+                child: Text(
+                  negativeButtonText,
+                  style: authTextButton(colorRed),
+                )),
+            TextButton(
+                onPressed: positiveTap,
+                child: Text(
+                  positiveButtonText,
+                  style: authTextButton(colorGreen),
+                ))
+          ],
         );
       });
 }

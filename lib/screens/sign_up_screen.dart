@@ -151,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           question: "Have an account?",
                           todo: "Sign In",
                           onTap: () {
-                            Navigator.pop(context);
+                            Get.back();
                           },
                         )
                       ],

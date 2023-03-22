@@ -4,7 +4,8 @@ import '../../api/network_utils.dart';
 import '../../utilities/application_colors.dart';
 import '../../utilities/bottom_sheet.dart';
 import '../../utilities/dialog.dart';
-import '../../utilities/toasts.dart';
+import '../../utilities/urls.dart';
+import '../../utilities/utility_functions.dart';
 import '../../widgets/task_list_item.dart';
 
 class CompletedTask extends StatefulWidget {
@@ -28,24 +29,26 @@ class _CompletedTaskState extends State<CompletedTask> {
 
   callData() async {
     setState(() {inProgress = true;});
-    var data = await NetworkUtils().taskListRequest('Completed', context: context);
-    setState(() {
-      inProgress = false;
+
+    var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}Completed");
+    if (response["status"] == "success") {
+      var data = response["data"];
       taskItems = data;
-    });
+    }
+
+    setState(() {inProgress = false;});
   }
 
   Future<void> deleteItem(id) async {
     setState(() {
       inProgress = true;
     });
-    var result = await NetworkUtils().deleteTask(id);
-    if (result) {
-      callData();
-      successToast("Task Delete Success");
-    } else {
-      errorToast("Task delete failed!");
-    }
+    Utility.deleteItem(
+        id,
+        onSuccess: () {
+          callData();
+        }
+    );
   }
 
   @override

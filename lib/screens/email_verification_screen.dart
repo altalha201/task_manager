@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 import 'package:task_manager/widgets/app_text_field.dart';
@@ -43,8 +44,8 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 AppElevatedButton(
                     onTap: () async {
                       if (_email.text.trim().isNotEmpty) {
-                        final response = await NetworkUtils().emailVerification(_email.text.trim());
-                        if (response) {
+                        final response = await NetworkUtils().getMethod(url: Urls.recoveryEmail(_email.text.trim()));
+                        if (response['status'] == "success") {
                           successToast("OTP Send to Email");
                           Get.toNamed("/pinVerification", arguments: {'email' : _email.text.trim()});
                         }
@@ -63,7 +64,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   question: "Have account?",
                   todo: "Sign In",
                   onTap: () {
-                      Navigator.pop(context);
+                      Get.back();
                   },
                 )
               ],

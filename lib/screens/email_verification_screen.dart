@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/api/network_utils.dart';
-import 'package:task_manager/screens/pin_verification_screen.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/utility_functions.dart';
@@ -25,8 +25,6 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       body: ScreenBackground(
         child: SafeArea(
@@ -45,14 +43,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 AppElevatedButton(
                     onTap: () async {
                       if (_email.text.trim().isNotEmpty) {
-                        var navigator = Navigator.of(context);
                         final response = await NetworkUtils().emailVerification(_email.text.trim());
                         if (response) {
                           successToast("OTP Send to Email");
-                          navigator.push(
-                              MaterialPageRoute(
-                                  builder: (context) => PinVerificationScreen(
-                                      email: _email.text.trim())));
+                          Get.toNamed("/pinVerification", arguments: {'email' : _email.text.trim()});
                         }
                         else {
                           errorToast("Enter a valid email");

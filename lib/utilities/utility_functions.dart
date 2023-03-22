@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/urls.dart';
 
@@ -12,6 +13,8 @@ import 'application_colors.dart';
 class Utility {
 
   static String verificationString = "A 6-digit verification cod will send to your email address";
+  static String logoName = "assets/images/logo.svg";
+  static String subtitlePass = "Minimum length password 8 character with Letter and Number Combination";
 
   static Icon proceedIcon = const Icon(
     Icons.arrow_circle_right_outlined,
@@ -41,11 +44,9 @@ class Utility {
     return image;
   }
 
-  static Future<void> moveToLoginPage(context) async {
-    final navigator = Navigator.of(context);
+  static Future<void> moveToLoginPage() async {
     await AuthUtils.clearData();
-    navigator.pushNamedAndRemoveUntil(
-        "/login", (route) => false);
+    Get.offAllNamed("/login");
   }
 
   static Future<bool> login(String email, String pass) async {

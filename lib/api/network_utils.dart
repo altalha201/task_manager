@@ -55,7 +55,7 @@ class NetworkUtils {
     if(responseCode == 200 && responseBody['status'] == "success") {
       return responseBody['data'];
     } else if(responseCode == 401) {
-      Utility.moveToLoginPage(context!);
+      Utility.moveToLoginPage();
     } else {
       errorToast("Request fail");
       return [];

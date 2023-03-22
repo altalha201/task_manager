@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
@@ -33,7 +34,6 @@ class _AddNewTaskState extends State<AddNewTask> {
       setState(() {
         inProgress = true;
       });
-      final navigator = Navigator.of(context);
       final result = await NetworkUtils().postMethod(
         Urls.addTaskURL,
         body: {
@@ -44,14 +44,14 @@ class _AddNewTaskState extends State<AddNewTask> {
         onUnAuthorize: () {
           errorToast("Please login again");
           AuthUtils.clearData();
-          navigator.pushNamedAndRemoveUntil("/login", (route) => false);
+          Get.offAllNamed("/login");
         }
       );
       if (result != null && result["status"] == "success") {
         title.clear();
         description.clear();
         successToast("Task Added");
-        navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+        Get.offAllNamed("/home");
       }
       setState(() {
         inProgress = false;

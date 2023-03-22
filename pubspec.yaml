@@ -24,6 +24,7 @@ dependencies:
   email_validator: ^2.0.1
   shared_preferences: ^2.0.18
   image_picker: ^0.8.6+4
+  get: ^4.6.5
 
 dev_dependencies:
   flutter_test:

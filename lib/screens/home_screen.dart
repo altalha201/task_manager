@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/screens/task_components/canceled_task.dart';
 import 'package:task_manager/screens/task_components/completed_task.dart';
 import 'package:task_manager/screens/task_components/new_task.dart';
@@ -44,10 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ProfileBar(
                 fromHome: true,
                 onProfileTap: () {
-                  Navigator.pushNamed(context, "/profile");
+                  Get.toNamed("/profile");
                 },
                 onAddTap: () {
-                  Navigator.pushNamed(context, '/addTask');
+                  Get.toNamed("/addTask");
                 },
                 onLogOutTap: () async {
                   await buildShowDialog(context,
@@ -59,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.pop(context);
                       },
                       negativeTap: () {
-                        Utility.moveToLoginPage(context);
+                        Utility.moveToLoginPage();
                       },
                   );
                 },

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:task_manager/api/network_utils.dart';
-import 'package:task_manager/screens/set_password_screen.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';
@@ -13,8 +13,7 @@ import 'package:task_manager/widgets/spacing.dart';
 import '../widgets/dual_text_widget.dart';
 
 class PinVerificationScreen extends StatefulWidget {
-  final String? email;
-  const PinVerificationScreen({Key? key, this.email}) : super(key: key);
+  const PinVerificationScreen({Key? key}) : super(key: key);
 
   @override
   State<PinVerificationScreen> createState() => _PinVerificationScreenState();
@@ -24,8 +23,12 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
 
   final _pinField = TextEditingController();
 
+  late String getEmail;
+
   @override
   Widget build(BuildContext context) {
+
+    getEmail = Get.arguments["email"];
 
     return Scaffold(
       body: ScreenBackground(
@@ -69,12 +72,9 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                 AppElevatedButton(
                     onTap: () async {
                       if (_pinField.text.trim().isNotEmpty) {
-                        var navigator = Navigator.of(context);
-                        final response = await NetworkUtils().pinVerification(widget.email, _pinField.text.trim());
+                        final response = await NetworkUtils().pinVerification(getEmail, _pinField.text.trim());
                         if (response) {
-                          navigator.push(
-                              MaterialPageRoute(
-                                  builder: (context) => SetPasswordScreen(email: widget.email!, otp: _pinField.text.trim())));
+                          Get.toNamed("/setPass", arguments: {"email" : getEmail, "pin" : _pinField.text.trim()});
                         }
                         else {
                           errorToast("OTP doesn't match");
@@ -90,7 +90,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                   question: "Have account?",
                   todo: "Sign In",
                   onTap: () {
-                    Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+                    Get.offAllNamed("/login");
                   },
                 )
               ],

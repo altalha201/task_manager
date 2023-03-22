@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/screens/add_new_task.dart';
 import 'package:task_manager/screens/email_verification_screen.dart';
 import 'package:task_manager/screens/home_screen.dart';
@@ -21,24 +22,24 @@ class TaskManagerApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Task Manager',
       theme: ThemeData(
         primaryColor: colorGreen
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: {
-        '/' : (context) => const SplashScreen(),
-        '/login' : (context) => const LoginScreen(),
-        '/emailVerification' : (context) => const EmailVerificationScreen(),
-        '/pinVerification' : (context) => const PinVerificationScreen(),
-        '/setPass' : (context) => const SetPasswordScreen(),
-        '/signUp' : (context) => const SignUpScreen(),
-        '/home' : (context) => const HomeScreen(),
-        '/addTask' : (context) => const AddNewTask(),
-        '/profile' : (context) => const UpdateProfileScreen(),
-      },
+      getPages: [
+        GetPage(name: '/', page: () => const SplashScreen()),
+        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/emailVerification', page: () => const EmailVerificationScreen()),
+        GetPage(name: '/pinVerification', page: () => const PinVerificationScreen()),
+        GetPage(name: '/setPass', page: () => const SetPasswordScreen()),
+        GetPage(name: '/signUp', page: () => const SignUpScreen()),
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/addTask', page: () => const AddNewTask()),
+        GetPage(name: '/profile', page: () => const UpdateProfileScreen()),
+      ],
     );
   }
 }

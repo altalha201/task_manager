@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/urls.dart';
@@ -122,6 +123,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
         AuthUtils.lastName = lastNameController.text;
         AuthUtils.mobile = phoneController.text.trim();
       });
+      Get.offAllNamed("/home");
     }
   }
 

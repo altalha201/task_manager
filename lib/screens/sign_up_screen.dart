@@ -1,5 +1,6 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
@@ -30,20 +31,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool inProgress = false;
 
-  void clearAll() {
-    emailController.clear();
-    phoneController.clear();
-    firstNameController.clear();
-    lastNameController.clear();
-    passwordController.clear();
-  }
-
   void fromFilled() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
         inProgress = true;
       });
-      final navigator = Navigator.of(context);
       final result = await NetworkUtils().postMethod(Urls.registerURL, body: {
         "email": emailController.text.trim(),
         'mobile': phoneController.text.trim(),
@@ -56,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         final login = await Utility.login(
             emailController.text.trim(), passwordController.text);
         if (login) {
-          navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+          Get.offAllNamed("/home");
         } else {
           errorToast("Something went wrong while login. Try From Login later");
         }

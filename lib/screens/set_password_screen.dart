@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/api/network_utils.dart';
 import 'package:task_manager/utilities/application_colors.dart';
 import 'package:task_manager/utilities/text_styles.dart';
 import 'package:task_manager/utilities/toasts.dart';
+import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
 import 'package:task_manager/widgets/app_text_field.dart';
 import 'package:task_manager/widgets/dual_text_widget.dart';
@@ -10,8 +12,7 @@ import 'package:task_manager/widgets/screen_background.dart';
 import 'package:task_manager/widgets/spacing.dart';
 
 class SetPasswordScreen extends StatefulWidget {
-  final String? email, otp;
-  const SetPasswordScreen({Key? key, this.email, this.otp}) : super(key: key);
+  const SetPasswordScreen({Key? key}) : super(key: key);
 
   @override
   State<SetPasswordScreen> createState() => _SetPasswordScreenState();
@@ -24,10 +25,13 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  late String getEmail, getOTP;
+
   @override
   Widget build(BuildContext context) {
 
-    const String subtitle = "Minimum length password 8 character with Letter and Number Combination";
+    getEmail = Get.arguments["email"];
+    getOTP = Get.arguments["pin"];
 
     return Scaffold(
       body: ScreenBackground(
@@ -42,7 +46,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 children: [
                   Text("Set Password", style: authHeadline(colorDarkBlue),),
                   verticalSpacing(8.0),
-                  Text(subtitle, style: authSubtitle(colorLightGray),),
+                  Text(Utility.subtitlePass, style: authSubtitle(colorLightGray),),
                   verticalSpacing(24.0),
                   AppTextField(hint: "Password",
                     validator: (value) {
@@ -67,17 +71,16 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   AppElevatedButton(
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        var navigator = Navigator.of(context);
                         final response = await NetworkUtils().setPin(
                           {
-                            "email":widget.email,
-                            "OTP":widget.otp,
+                            "email":getEmail,
+                            "OTP":getOTP,
                             "password":_newPasswordETController.text
                           }
                         );
                         if(response) {
                           successToast("Password Reset");
-                          navigator.pushNamedAndRemoveUntil("/login", (route) => false);
+                          Get.offAllNamed("/login");
                         }
                         else {
                           errorToast("Something Went Wrong");
@@ -91,7 +94,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                     question: "Have an account?",
                     todo: "Sign In",
                     onTap: () {
-                      Navigator.pushNamedAndRemoveUntil(context, "/login", (route) => false);
+                      Get.offAllNamed("/login");
                     },
                   )
                 ],

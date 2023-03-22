@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/utilities/toasts.dart';
 import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/app_elevated_button.dart';
@@ -32,10 +33,9 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         inProgress = true;
       });
-      final navigator = Navigator.of(context);
       final result = await Utility.login(emailEtLs.text.trim(), passEtLs.text);
       if (result) {
-        navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+        Get.offAllNamed("/home");
       } else {
         errorToast("Something Went Wrong");
       }
@@ -98,8 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               alignment: Alignment.center,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pushNamed(
-                                      context, '/emailVerification');
+                                  Get.toNamed("/emailVerification");
                                 },
                                 child: Text(
                                   "Forget Password?",
@@ -112,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               question: "Don't Have Account?",
                               todo: "Sign Up",
                               onTap: () {
-                                Navigator.pushNamed(context, "/signUp");
+                                Get.toNamed("/signUp");
                               },
                             ),
                           ],

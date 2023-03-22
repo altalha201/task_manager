@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:task_manager/data/auth_utils.dart';
+import 'package:task_manager/utilities/utility_functions.dart';
 import 'package:task_manager/widgets/screen_background.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -23,27 +25,24 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> checkUserState() async {
-    final navigator = Navigator.of(context);
     final bool userState = await AuthUtils.checkLoginState();
     if (userState) {
       await AuthUtils.getAuthData();
-      navigator.pushNamedAndRemoveUntil("/home", (route) => false);
+      Get.offAllNamed("/home");
     }
     else {
-      navigator.pushNamedAndRemoveUntil("/login", (route) => false);
+      Get.offAllNamed("/login");
     }
   }
 
   @override
   Widget build(BuildContext context) {
 
-    const String logoName = "assets/images/logo.svg";
-
     return Scaffold(
       body: ScreenBackground(
         child: Center(
           child: SvgPicture.asset(
-            logoName,
+            Utility.logoName,
             width: 120,
           ),
         ),

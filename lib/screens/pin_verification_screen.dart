@@ -13,8 +13,8 @@ import 'package:task_manager/widgets/spacing.dart';
 import '../widgets/dual_text_widget.dart';
 
 class PinVerificationScreen extends StatefulWidget {
-  final String email;
-  const PinVerificationScreen({Key? key, required this.email}) : super(key: key);
+  final String? email;
+  const PinVerificationScreen({Key? key, this.email}) : super(key: key);
 
   @override
   State<PinVerificationScreen> createState() => _PinVerificationScreenState();
@@ -74,7 +74,7 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                         if (response) {
                           navigator.push(
                               MaterialPageRoute(
-                                  builder: (context) => SetPasswordScreen(email: widget.email, otp: _pinField.text.trim())));
+                                  builder: (context) => SetPasswordScreen(email: widget.email!, otp: _pinField.text.trim())));
                         }
                         else {
                           errorToast("OTP doesn't match");

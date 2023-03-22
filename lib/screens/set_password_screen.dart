@@ -10,8 +10,8 @@ import 'package:task_manager/widgets/screen_background.dart';
 import 'package:task_manager/widgets/spacing.dart';
 
 class SetPasswordScreen extends StatefulWidget {
-  final String email, otp;
-  const SetPasswordScreen({Key? key, required this.email, required this.otp}) : super(key: key);
+  final String? email, otp;
+  const SetPasswordScreen({Key? key, this.email, this.otp}) : super(key: key);
 
   @override
   State<SetPasswordScreen> createState() => _SetPasswordScreenState();

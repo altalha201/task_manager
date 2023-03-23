@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/utilities/get_x_dialog.dart';
 import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/widgets/spacing.dart';
 
 import '../../api/network_utils.dart';
 
 import '../../utilities/bottom_sheet.dart';
-import '../../utilities/dialog.dart';
 import '../../utilities/utility_functions.dart';
 import '../../widgets/dashboard_item.dart';
 import '../../widgets/task_list_item.dart';
@@ -159,8 +159,7 @@ class _NewTaskState extends State<NewTask> {
                                 );
                               },
                               onDeleteTap: () {
-                                buildShowDialog(
-                                  context,
+                                buildGetXDialog(
                                   title: "Delete",
                                   message: "Want to delete task: ${taskItems[index]['title']}",
                                   positiveButtonText: "No",

@@ -40,7 +40,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   initState() {
     super.initState();
-
     emailController.text = AuthUtils.email ?? "";
     firstNameController.text = AuthUtils.firstName ?? "";
     lastNameController.text = AuthUtils.lastName ?? "";
@@ -48,49 +47,39 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   }
 
   Future<void> pickImage() async {
-    showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text("Pick Image From"),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  onTap: () async {
-                    var navigator = Navigator.of(context);
-                    pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
-                    if (pickedImage != null) {
-                      setState(() {});
-                    }
-                    navigator.pop();
-                  },
-                  leading: const Icon(Icons.camera_alt_outlined, size: 34, color: colorDarkBlue,),
-                  title: const Text("Camera"),
-                ),
-                ListTile(
-                  onTap: () async {
-                    var navigator = Navigator.of(context);
-                    pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-                    if (pickedImage != null) {
-                      setState(() {});
-                    }
-                    navigator.pop();
-                  },
-                  leading: const Icon(Icons.image_outlined, size: 34, color: colorDarkBlue,),
-                  title: const Text("Gallery"),
-                ),
-                verticalSpacing(8.0),
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  }, 
-                  child: Text("Cancel", style: authButton(colorRed),)
-                )
-              ],
-            ),
-          );
-        }
+    Get.defaultDialog(
+      title: "Pick Image Form",
+      textCancel: "Cancel",
+      cancelTextColor: colorRed,
+      buttonColor: colorRed,
+      content: Column(
+        children: [
+          ListTile(
+            onTap: () async {
+              var navigator = Navigator.of(context);
+              pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
+              if (pickedImage != null) {
+                setState(() {});
+              }
+              navigator.pop();
+            },
+            leading: const Icon(Icons.camera_alt_outlined, size: 34, color: colorDarkBlue,),
+            title: const Text("Camera"),
+          ),
+          ListTile(
+            onTap: () async {
+              var navigator = Navigator.of(context);
+              pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+              if (pickedImage != null) {
+                setState(() {});
+              }
+              navigator.pop();
+            },
+            leading: const Icon(Icons.image_outlined, size: 34, color: colorDarkBlue,),
+            title: const Text("Gallery"),
+          )
+        ],
+      ),
     );
   }
 

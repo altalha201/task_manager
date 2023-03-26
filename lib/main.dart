@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_manager/get_controllers/auth_controller.dart';
+import 'package:task_manager/get_controllers/update_status_controller.dart';
 import 'package:task_manager/screens/add_new_task.dart';
 import 'package:task_manager/screens/email_verification_screen.dart';
 import 'package:task_manager/screens/home_screen.dart';
@@ -29,9 +31,10 @@ class TaskManagerApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
+      initialBinding: StoreBinding(),
       getPages: [
         GetPage(name: '/', page: () => const SplashScreen()),
-        GetPage(name: '/login', page: () => const LoginScreen()),
+        GetPage(name: '/login', page: () => LoginScreen()),
         GetPage(name: '/emailVerification', page: () => const EmailVerificationScreen()),
         GetPage(name: '/pinVerification', page: () => const PinVerificationScreen()),
         GetPage(name: '/setPass', page: () => const SetPasswordScreen()),
@@ -42,4 +45,13 @@ class TaskManagerApp extends StatelessWidget {
       ],
     );
   }
+}
+
+class StoreBinding extends Bindings {
+  @override
+  void dependencies() {
+    Get.put(UpdateStatusController());
+    Get.put(AuthController());
+  }
+
 }

@@ -15,4 +15,5 @@ In this project I try to build a mobile application with API integration.
 - Custom Appbar design
 - Reusable widgets
 - Custom Components
+- State Management with GetX
 

@@ -14,7 +14,7 @@ void getTaskUpdateBottomSheet({
   required VoidCallback onComplete,
 }) {
 
-  UpdateStatusController updateStatusController = Get.put(UpdateStatusController());
+  UpdateStatusController updateStatusController = Get.find<UpdateStatusController>();
   updateStatusController.updateStatus(currentStatus);
 
   Get.bottomSheet(

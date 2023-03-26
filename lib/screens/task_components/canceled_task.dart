@@ -3,7 +3,7 @@ import 'package:task_manager/utilities/get_x_dialog.dart';
 
 import '../../api/network_utils.dart';
 import '../../utilities/application_colors.dart';
-import '../../utilities/bottom_sheet.dart';
+import '../../utilities/get_x_bottom_sheet.dart';
 import '../../utilities/urls.dart';
 import '../../utilities/utility_functions.dart';
 import '../../widgets/task_list_item.dart';
@@ -74,10 +74,9 @@ class _CanceledTaskState extends State<CanceledTask> {
                 date: taskItems[index]['createdDate'],
                 type: taskItems[index]['status'],
                 onEditTap: () {
-                  taskChangeStatus(
-                      context,
-                      currentState: taskItems[index]['status'],
-                      taskID: taskItems[index]['_id'],
+                  getTaskUpdateBottomSheet(
+                      currentStatus: taskItems[index]['status'],
+                      taskId: taskItems[index]['_id'],
                       onComplete: () {
                         callData();
                       }

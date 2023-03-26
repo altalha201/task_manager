@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:task_manager/utilities/get_x_bottom_sheet.dart';
 import 'package:task_manager/utilities/get_x_dialog.dart';
 import 'package:task_manager/utilities/urls.dart';
 import 'package:task_manager/widgets/spacing.dart';
 
 import '../../api/network_utils.dart';
 
-import '../../utilities/bottom_sheet.dart';
 import '../../utilities/utility_functions.dart';
 import '../../widgets/dashboard_item.dart';
 import '../../widgets/task_list_item.dart';
@@ -109,24 +109,24 @@ class _NewTaskState extends State<NewTask> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Expanded(
-                            child: DashboardItem(
-                          numberOfTask: newTasks ,
-                          type: 'New',
+                          child: DashboardItem(
+                            numberOfTask: newTasks ,
+                            type: 'New',
                         )),
                         Expanded(
-                            child: DashboardItem(
-                          numberOfTask: progressingTask,
-                          type: 'Progress',
+                          child: DashboardItem(
+                            numberOfTask: progressingTask,
+                            type: 'Progress',
                         )),
                         Expanded(
-                            child: DashboardItem(
-                          numberOfTask: completedTask,
-                          type: 'Completed',
+                          child: DashboardItem(
+                            numberOfTask: completedTask,
+                            type: 'Completed',
                         )),
                         Expanded(
-                            child: DashboardItem(
-                          numberOfTask: canceledTask,
-                          type: 'Canceled',
+                          child: DashboardItem(
+                            numberOfTask: canceledTask,
+                            type: 'Canceled',
                         )),
                       ],
                     )),
@@ -148,14 +148,13 @@ class _NewTaskState extends State<NewTask> {
                               date: taskItems[index]['createdDate'],
                               type: taskItems[index]['status'],
                               onEditTap: () {
-                                taskChangeStatus(
-                                  context,
-                                  currentState: taskItems[index]['status'],
-                                  taskID: taskItems[index]['_id'],
-                                  onComplete: () {
-                                    callData();
-                                    getTaskCounts();
-                                  }
+                                getTaskUpdateBottomSheet(
+                                    currentStatus: taskItems[index]['status'],
+                                    taskId: taskItems[index]['_id'],
+                                    onComplete: () {
+                                      callData();
+                                      getTaskCounts();
+                                    }
                                 );
                               },
                               onDeleteTap: () {

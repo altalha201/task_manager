@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 import 'ui/get_controllers/auth_controller.dart';
+import 'ui/get_controllers/new_task_list_controller.dart';
+import 'ui/get_controllers/task_count_controller.dart';
 import 'ui/get_controllers/update_status_controller.dart';
 import 'ui/screens/add_new_task.dart';
 import 'ui/screens/email_verification_screen.dart';
@@ -54,6 +55,8 @@ class StoreBinding extends Bindings {
   void dependencies() {
     Get.put(UpdateStatusController());
     Get.put(AuthController());
+    Get.put(NewTaskListController());
+    Get.put(TaskCountController());
   }
 
 }

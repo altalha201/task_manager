@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/data_utilities.dart';
+import '../../../data/models/task_model.dart';
 import '../../../data/network_utils.dart';
 import '../../../data/urls.dart';
 import '../../utilities/application_colors.dart';
@@ -18,8 +19,7 @@ class CanceledTask extends StatefulWidget {
 class _CanceledTaskState extends State<CanceledTask> {
 
   bool inProgress = true;
-
-  List taskItems = [];
+  TaskModel cancelTaskModel = TaskModel();
 
   @override
   void initState() {
@@ -32,8 +32,7 @@ class _CanceledTaskState extends State<CanceledTask> {
 
     var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}Canceled");
     if (response["status"] == "success") {
-      var data = response["data"];
-      taskItems = data;
+      cancelTaskModel = TaskModel.fromJson(response);
     }
 
     setState(() {inProgress = false;});
@@ -66,17 +65,17 @@ class _CanceledTaskState extends State<CanceledTask> {
           callData();
         },
         child: ListView.builder(
-            itemCount: taskItems.length,
+            itemCount: cancelTaskModel.data?.length ?? 0,
             itemBuilder: (context, index) {
               return TaskListItem(
-                title: taskItems[index]['title'],
-                description: taskItems[index]['description'],
-                date: taskItems[index]['createdDate'],
-                type: taskItems[index]['status'],
+                title: cancelTaskModel.data?[index].title ?? "Unknown",
+                description: cancelTaskModel.data?[index].description ?? "Unknown",
+                date: cancelTaskModel.data?[index].createdDate ?? "Unknown",
+                type: cancelTaskModel.data?[index].status ?? "Unknown",
                 onEditTap: () {
                   getTaskUpdateBottomSheet(
-                      currentStatus: taskItems[index]['status'],
-                      taskId: taskItems[index]['_id'],
+                      currentStatus: cancelTaskModel.data?[index].status ?? "Unknown",
+                      taskId: cancelTaskModel.data?[index].sId ?? "Unknown",
                       onComplete: () {
                         callData();
                       }
@@ -85,14 +84,14 @@ class _CanceledTaskState extends State<CanceledTask> {
                 onDeleteTap: () {
                   buildGetXDialog(
                       title: "Delete",
-                      message: "Want to delete task: ${taskItems[index]['title']}",
+                      message: "Want to delete task: ${cancelTaskModel.data?[index].title ?? "Unknown"}",
                       positiveButtonText: "No",
                       positiveTap: () {
                         Navigator.pop(context);
                       },
                       negativeButtonText: "Yes",
                       negativeTap: () async {
-                        deleteItem(taskItems[index]["_id"]);
+                        deleteItem(cancelTaskModel.data?[index].sId ?? "Unknown");
                         Navigator.pop(context);
                       }
                   );

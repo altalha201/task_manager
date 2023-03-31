@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/data_utilities.dart';
+import '../../../data/models/task_model.dart';
 import '../../../data/network_utils.dart';
 import '../../../data/urls.dart';
 import '../../utilities/application_colors.dart';
@@ -18,8 +19,7 @@ class ProgressTask extends StatefulWidget {
 class _ProgressTaskState extends State<ProgressTask> {
 
   bool inProgress = true;
-
-  List taskItems = [];
+  TaskModel progressTaskModel = TaskModel();
 
   @override
   void initState() {
@@ -32,8 +32,7 @@ class _ProgressTaskState extends State<ProgressTask> {
 
     var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}Progress");
     if (response["status"] == "success") {
-      var data = response["data"];
-      taskItems = data;
+      progressTaskModel = TaskModel.fromJson(response);
     }
 
     setState(() {inProgress = false;});
@@ -67,17 +66,17 @@ class _ProgressTaskState extends State<ProgressTask> {
           callData();
         },
         child: ListView.builder(
-            itemCount: taskItems.length,
+            itemCount: progressTaskModel.data?.length ?? 0,
             itemBuilder: (context, index) {
               return TaskListItem(
-                title: taskItems[index]['title'],
-                description: taskItems[index]['description'],
-                date: taskItems[index]['createdDate'],
-                type: taskItems[index]['status'],
+                title: progressTaskModel.data?[index].title ?? "Unknown",
+                description: progressTaskModel.data?[index].description ?? "Unknown",
+                date: progressTaskModel.data?[index].createdDate ?? "Unknown",
+                type: progressTaskModel.data?[index].status ?? "Unknown",
                 onEditTap: () {
                   getTaskUpdateBottomSheet(
-                      currentStatus: taskItems[index]['status'],
-                      taskId: taskItems[index]['_id'],
+                      currentStatus: progressTaskModel.data?[index].status ?? "Unknown",
+                      taskId: progressTaskModel.data?[index].sId ?? "",
                       onComplete: () {
                         callData();
                       }
@@ -86,14 +85,14 @@ class _ProgressTaskState extends State<ProgressTask> {
                 onDeleteTap: () {
                   buildGetXDialog(
                       title: "Delete",
-                      message: "Want to delete task: ${taskItems[index]['title']}",
+                      message: "Want to delete task: ${progressTaskModel.data?[index].title ?? "Unknown"}",
                       positiveButtonText: "No",
                       positiveTap: () {
                         Navigator.pop(context);
                       },
                       negativeButtonText: "Yes",
                       negativeTap: () async {
-                        deleteItem(taskItems[index]["_id"]);
+                        deleteItem(progressTaskModel.data?[index].sId ?? "");
                         Navigator.pop(context);
                       }
                   );

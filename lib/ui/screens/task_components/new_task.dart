@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../data/data_utilities.dart';
+import '../../../data/models/task_count_model.dart';
+import '../../../data/models/task_model.dart';
 import '../../../data/network_utils.dart';
 import '../../../data/urls.dart';
 import '../../utilities/get_x_bottom_sheet.dart';
@@ -21,12 +23,13 @@ class _NewTaskState extends State<NewTask> {
   bool inProgress = true;
   bool countInProgress = true;
 
+  TaskModel newTaskModel = TaskModel();
+  TaskCountModel taskCountModel = TaskCountModel();
+
   int newTasks = 0;
   int progressingTask = 0;
   int completedTask = 0;
   int canceledTask = 0;
-
-  List taskItems = [];
 
   @override
   void initState() {
@@ -40,8 +43,7 @@ class _NewTaskState extends State<NewTask> {
 
     var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}New");
     if (response["status"] == "success") {
-      var data = response["data"];
-      taskItems = data;
+      newTaskModel = TaskModel.fromJson(response);
     }
 
     setState(() {inProgress = false;});
@@ -68,25 +70,25 @@ class _NewTaskState extends State<NewTask> {
     var response = await NetworkUtils().getMethod(url: Urls.taskCounterURL);
 
     if (response['status'] == "success") {
-      var data = response['data'];
-      newTasks = 0; completedTask = 0; progressingTask = 0; canceledTask = 0;
+      taskCountModel = TaskCountModel.fromJson(response);
+      var data = taskCountModel.data ?? [];
 
       for (var element in data) {
-        switch (element["_id"]) {
+        switch (element.sId) {
           case "New": {
-            newTasks = element["sum"];
+            newTasks = element.sum ?? 0;
             break;
           }
           case "Completed" : {
-            completedTask = element["sum"];
+            completedTask = element.sum ?? 0;
             break;
           }
           case "Progress" : {
-            progressingTask = element["sum"];
+            progressingTask = element.sum ?? 0;
             break;
           }
           case "Canceled" : {
-            canceledTask = element["sum"];
+            canceledTask = element.sum ?? 0;
             break;
           }
         }
@@ -140,17 +142,17 @@ class _NewTaskState extends State<NewTask> {
                         getTaskCounts();
                       },
                       child: ListView.builder(
-                          itemCount: taskItems.length,
+                          itemCount: newTaskModel.data?.length ?? 0,
                           itemBuilder: (context, index) {
                             return TaskListItem(
-                              title: taskItems[index]['title'],
-                              description: taskItems[index]['description'],
-                              date: taskItems[index]['createdDate'],
-                              type: taskItems[index]['status'],
+                              title: newTaskModel.data?[index].title ?? "Unknown",
+                              description: newTaskModel.data?[index].description ?? "Unknown",
+                              date: newTaskModel.data?[index].createdDate ?? "Unknown",
+                              type: newTaskModel.data?[index].status ?? "Unknown",
                               onEditTap: () {
                                 getTaskUpdateBottomSheet(
-                                    currentStatus: taskItems[index]['status'],
-                                    taskId: taskItems[index]['_id'],
+                                    currentStatus: newTaskModel.data?[index].status ?? "Unknown",
+                                    taskId: newTaskModel.data?[index].sId ?? "Unknown",
                                     onComplete: () {
                                       callData();
                                       getTaskCounts();
@@ -160,14 +162,14 @@ class _NewTaskState extends State<NewTask> {
                               onDeleteTap: () {
                                 buildGetXDialog(
                                   title: "Delete",
-                                  message: "Want to delete task: ${taskItems[index]['title']}",
+                                  message: "Want to delete task: ${newTaskModel.data?[index].title ?? "Unknown"}",
                                   positiveButtonText: "No",
                                   positiveTap: () {
                                     Navigator.pop(context);
                                   },
                                   negativeButtonText: "Yes",
                                   negativeTap: () async {
-                                    deleteItem(taskItems[index]["_id"]);
+                                    deleteItem(newTaskModel.data?[index].sId ?? "Unknown");
                                     Navigator.pop(context);
                                   }
                                 );

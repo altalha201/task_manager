@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/get_x_bottom_sheet.dart';
-import 'package:task_manager/utilities/get_x_dialog.dart';
-import 'package:task_manager/utilities/urls.dart';
-import 'package:task_manager/widgets/spacing.dart';
 
-import '../../api/network_utils.dart';
-
-import '../../utilities/utility_functions.dart';
+import '../../../data/data_utilities.dart';
+import '../../../data/network_utils.dart';
+import '../../../data/urls.dart';
+import '../../utilities/get_x_bottom_sheet.dart';
+import '../../utilities/get_x_dialog.dart';
+import '../../utilities/ui_utility.dart';
 import '../../widgets/dashboard_item.dart';
+import '../../widgets/spacing.dart';
 import '../../widgets/task_list_item.dart';
 
 class NewTask extends StatefulWidget {
@@ -53,7 +53,7 @@ class _NewTaskState extends State<NewTask> {
       countInProgress = true;
     });
 
-    Utility.deleteItem(
+    DataUtilities.deleteItem(
       id,
       onSuccess: () {
         callData();
@@ -104,7 +104,7 @@ class _NewTaskState extends State<NewTask> {
         children: [
           Container(
               child: countInProgress
-                  ? Utility.processingGreen
+                  ? UIUtility.processingGreen
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -133,7 +133,7 @@ class _NewTaskState extends State<NewTask> {
           verticalSpacing(10.0),
           Expanded(
               child: inProgress
-                  ? Utility.processingGreen
+                  ? UIUtility.processingGreen
                   : RefreshIndicator(
                       onRefresh: () async {
                         callData();

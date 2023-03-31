@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/application_colors.dart';
+
+import '../utilities/application_colors.dart';
 
 class AppNavBar extends StatefulWidget {
   const AppNavBar({Key? key, required this.currentIndex, this.onTap}) : super(key: key);

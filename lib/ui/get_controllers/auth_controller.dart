@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
+
+import '../../data/data_utilities.dart';
 
 class AuthController extends GetxController{
   bool loginInProgress = false;
@@ -8,7 +9,7 @@ class AuthController extends GetxController{
     loginInProgress = true;
     update();
 
-    final result = await Utility.login(email, pass);
+    final result = await DataUtilities.login(email, pass);
     loginInProgress = false;
     update();
     if (result) {
@@ -17,5 +18,4 @@ class AuthController extends GetxController{
       return false;
     }
   }
-
 }

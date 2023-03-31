@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:task_manager/utilities/utility_functions.dart';
 
-import '../data/auth_utils.dart';
+import 'auth_utils.dart';
+import 'data_utilities.dart';
 
 class NetworkUtils {
 
@@ -52,7 +51,7 @@ class NetworkUtils {
           onUnAuthorize();
         } else {
           log("Something went Wrong");
-          Utility.moveToLoginPage();
+          DataUtilities.moveToLoginPage();
         }
       } else {
         log("Something went wrong ${response.statusCode}");

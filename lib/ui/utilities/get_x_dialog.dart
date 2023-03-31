@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/utilities/application_colors.dart';
+
+import 'application_colors.dart';
 
 buildGetXDialog(
   {required String title,

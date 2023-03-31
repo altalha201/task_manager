@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/application_colors.dart';
+
+import 'application_colors.dart';
 
 TextStyle authHeadline(textColor) => TextStyle(
   color: textColor,

@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/get_controllers/auth_controller.dart';
-import 'package:task_manager/get_controllers/update_status_controller.dart';
-import 'package:task_manager/screens/add_new_task.dart';
-import 'package:task_manager/screens/email_verification_screen.dart';
-import 'package:task_manager/screens/home_screen.dart';
-import 'package:task_manager/screens/pin_verification_screen.dart';
-import 'package:task_manager/screens/set_password_screen.dart';
-import 'package:task_manager/screens/sign_up_screen.dart';
-import 'package:task_manager/screens/splash_screen.dart';
-import 'package:task_manager/screens/update_profile_screen.dart';
-import 'package:task_manager/utilities/application_colors.dart';
 
-import 'screens/login_screen.dart';
+
+import 'ui/get_controllers/auth_controller.dart';
+import 'ui/get_controllers/update_status_controller.dart';
+import 'ui/screens/add_new_task.dart';
+import 'ui/screens/email_verification_screen.dart';
+import 'ui/screens/home_screen.dart';
+import 'ui/screens/login_screen.dart';
+import 'ui/screens/pin_verification_screen.dart';
+import 'ui/screens/set_password_screen.dart';
+import 'ui/screens/sign_up_screen.dart';
+import 'ui/screens/splash_screen.dart';
+import 'ui/screens/update_profile_screen.dart';
+import 'ui/utilities/application_colors.dart';
+
 
 void main() {
   runApp(const TaskManagerApp());

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/utilities/text_styles.dart';
-import 'package:task_manager/utilities/toasts.dart';
-import 'package:task_manager/widgets/app_elevated_button.dart';
+
 
 import '../get_controllers/update_status_controller.dart';
+import '../widgets/app_elevated_button.dart';
 import '../widgets/spacing.dart';
 import 'application_colors.dart';
+import 'text_styles.dart';
+import 'toasts.dart';
 
 void getTaskUpdateBottomSheet({
   required String currentStatus,

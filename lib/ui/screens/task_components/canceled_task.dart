@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/get_x_bottom_sheet.dart';
-import 'package:task_manager/utilities/get_x_dialog.dart';
 
-import '../../api/network_utils.dart';
+import '../../../data/data_utilities.dart';
+import '../../../data/network_utils.dart';
+import '../../../data/urls.dart';
 import '../../utilities/application_colors.dart';
-import '../../utilities/urls.dart';
-import '../../utilities/utility_functions.dart';
+import '../../utilities/get_x_bottom_sheet.dart';
+import '../../utilities/get_x_dialog.dart';
 import '../../widgets/task_list_item.dart';
 
-class ProgressTask extends StatefulWidget {
-  const ProgressTask({Key? key}) : super(key: key);
+class CanceledTask extends StatefulWidget {
+  const CanceledTask({Key? key}) : super(key: key);
 
   @override
-  State<ProgressTask> createState() => _ProgressTaskState();
+  State<CanceledTask> createState() => _CanceledTaskState();
 }
 
-class _ProgressTaskState extends State<ProgressTask> {
+class _CanceledTaskState extends State<CanceledTask> {
 
   bool inProgress = true;
 
@@ -30,7 +30,7 @@ class _ProgressTaskState extends State<ProgressTask> {
   callData() async {
     setState(() {inProgress = true;});
 
-    var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}Progress");
+    var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}Canceled");
     if (response["status"] == "success") {
       var data = response["data"];
       taskItems = data;
@@ -43,8 +43,7 @@ class _ProgressTaskState extends State<ProgressTask> {
     setState(() {
       inProgress = true;
     });
-
-    Utility.deleteItem(
+    DataUtilities.deleteItem(
         id,
         onSuccess: () {
           callData();

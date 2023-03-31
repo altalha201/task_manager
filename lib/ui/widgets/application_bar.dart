@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/widgets/spacing.dart';
 
-import '../data/auth_utils.dart';
+import '../../data/auth_utils.dart';
+import '../../data/urls.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
-import '../utilities/urls.dart';
-import '../utilities/utility_functions.dart';
+import '../utilities/ui_utility.dart';
+import 'spacing.dart';
+
 
 AppBar applicationBar(
     {bool? fromHome,
@@ -35,7 +36,7 @@ AppBar applicationBar(
                 radius: 24,
                 child: ClipOval(
                   child: Image.memory(
-                    Utility.showBase64Image(imgTxt),
+                    UIUtility.showBase64Image(imgTxt),
                     fit: BoxFit.fitWidth,
                     width: 48,
                   ),

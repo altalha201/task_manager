@@ -1,8 +1,8 @@
-
 import 'package:get/get.dart';
 
-import '../api/network_utils.dart';
-import '../utilities/urls.dart';
+import '../../data/network_utils.dart';
+import '../../data/urls.dart';
+
 
 class UpdateStatusController extends GetxController{
   var status = "";

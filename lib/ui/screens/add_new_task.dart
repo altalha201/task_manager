@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/utilities/application_colors.dart';
-import 'package:task_manager/utilities/text_styles.dart';
-import 'package:task_manager/widgets/app_elevated_button.dart';
-import 'package:task_manager/widgets/app_text_field.dart';
-import 'package:task_manager/widgets/screen_background.dart';
-import 'package:task_manager/widgets/spacing.dart';
 
-import '../api/network_utils.dart';
+import '../../data/data_utilities.dart';
+import '../../data/network_utils.dart';
+import '../../data/urls.dart';
+import '../utilities/application_colors.dart';
+import '../utilities/text_styles.dart';
 import '../utilities/toasts.dart';
-import '../utilities/urls.dart';
-import '../utilities/utility_functions.dart';
+import '../utilities/ui_utility.dart';
+import '../widgets/app_elevated_button.dart';
+import '../widgets/app_text_field.dart';
 import '../widgets/application_bar.dart';
+import '../widgets/screen_background.dart';
+import '../widgets/spacing.dart';
 
 class AddNewTask extends StatefulWidget {
   const AddNewTask({Key? key}) : super(key: key);
@@ -42,7 +43,7 @@ class _AddNewTaskState extends State<AddNewTask> {
         },
         onUnAuthorize: () {
           errorToast("Please login again");
-          Utility.moveToLoginPage();
+          DataUtilities.moveToLoginPage();
         }
       );
       if (result != null && result["status"] == "success") {
@@ -106,8 +107,8 @@ class _AddNewTaskState extends State<AddNewTask> {
                   AppElevatedButton(
                       onTap: () => checkAndAddTask(),
                       child: inProgress
-                          ? Utility.processing
-                          : Utility.proceedIcon
+                          ? UIUtility.processing
+                          : UIUtility.proceedIcon
                   )
                 ],
               ),

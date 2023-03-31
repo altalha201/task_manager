@@ -1,17 +1,19 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/api/network_utils.dart';
-import 'package:task_manager/utilities/application_colors.dart';
-import 'package:task_manager/utilities/text_styles.dart';
-import 'package:task_manager/utilities/toasts.dart';
-import 'package:task_manager/utilities/urls.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
-import 'package:task_manager/widgets/app_elevated_button.dart';
-import 'package:task_manager/widgets/app_text_field.dart';
-import 'package:task_manager/widgets/dual_text_widget.dart';
-import 'package:task_manager/widgets/screen_background.dart';
-import 'package:task_manager/widgets/spacing.dart';
+
+import '../../data/data_utilities.dart';
+import '../../data/network_utils.dart';
+import '../../data/urls.dart';
+import '../utilities/application_colors.dart';
+import '../utilities/text_styles.dart';
+import '../utilities/toasts.dart';
+import '../utilities/ui_utility.dart';
+import '../widgets/app_elevated_button.dart';
+import '../widgets/app_text_field.dart';
+import '../widgets/dual_text_widget.dart';
+import '../widgets/screen_background.dart';
+import '../widgets/spacing.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
 
       if (result != null && result['status'] == "success") {
-        final login = await Utility.login(
+        final login = await DataUtilities.login(
             emailController.text.trim(), passwordController.text);
         if (login) {
           Get.offAllNamed("/home");
@@ -144,8 +146,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         AppElevatedButton(
                             onTap: () => fromFilled(),
                             child: inProgress
-                                ? Utility.processing
-                                : Utility.proceedIcon),
+                                ? UIUtility.processing
+                                : UIUtility.proceedIcon),
                         verticalSpacing(42.0),
                         DualTextWidget(
                           question: "Have an account?",

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/data/auth_utils.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
-import 'package:task_manager/widgets/screen_background.dart';
+
+import '../../data/auth_utils.dart';
+import '../utilities/ui_utility.dart';
+import '../widgets/screen_background.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -42,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: ScreenBackground(
         child: Center(
           child: SvgPicture.asset(
-            Utility.logoName,
+            UIUtility.logoName,
             width: 120,
           ),
         ),

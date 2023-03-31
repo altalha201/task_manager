@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/get_controllers/auth_controller.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
-import 'package:task_manager/widgets/app_elevated_button.dart';
 
-import 'package:task_manager/widgets/app_text_field.dart';
-import 'package:task_manager/widgets/dual_text_widget.dart';
-import 'package:task_manager/widgets/screen_background.dart';
-import 'package:task_manager/widgets/spacing.dart';
-
-import '../utilities/text_styles.dart';
+import '../get_controllers/auth_controller.dart';
 import '../utilities/application_colors.dart';
+import '../utilities/text_styles.dart';
+import '../utilities/ui_utility.dart';
+import '../widgets/app_elevated_button.dart';
+import '../widgets/app_text_field.dart';
+import '../widgets/dual_text_widget.dart';
+import '../widgets/screen_background.dart';
+import '../widgets/spacing.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -75,7 +75,7 @@ class LoginScreen extends StatelessWidget {
                               }
                             }
                           },
-                          child: authController.loginInProgress ? Utility.processing : Utility.proceedIcon
+                          child: authController.loginInProgress ? UIUtility.processing : UIUtility.proceedIcon
                         );
                       }),
                       verticalSpacing(42.0),

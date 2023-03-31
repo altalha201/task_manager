@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/api/network_utils.dart';
-import 'package:task_manager/utilities/application_colors.dart';
-import 'package:task_manager/utilities/text_styles.dart';
-import 'package:task_manager/utilities/toasts.dart';
-import 'package:task_manager/utilities/urls.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
-import 'package:task_manager/widgets/app_elevated_button.dart';
-import 'package:task_manager/widgets/app_text_field.dart';
-import 'package:task_manager/widgets/dual_text_widget.dart';
-import 'package:task_manager/widgets/screen_background.dart';
-import 'package:task_manager/widgets/spacing.dart';
+
+import '../../data/network_utils.dart';
+import '../../data/urls.dart';
+import '../utilities/application_colors.dart';
+import '../utilities/text_styles.dart';
+import '../utilities/toasts.dart';
+import '../utilities/ui_utility.dart';
+import '../widgets/app_elevated_button.dart';
+import '../widgets/app_text_field.dart';
+import '../widgets/dual_text_widget.dart';
+import '../widgets/screen_background.dart';
+import '../widgets/spacing.dart';
 
 class SetPasswordScreen extends StatefulWidget {
   const SetPasswordScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                 children: [
                   Text("Set Password", style: authHeadline(colorDarkBlue),),
                   verticalSpacing(8.0),
-                  Text(Utility.subtitlePass, style: authSubtitle(colorLightGray),),
+                  Text(UIUtility.subtitlePass, style: authSubtitle(colorLightGray),),
                   verticalSpacing(24.0),
                   AppTextField(hint: "Password",
                     validator: (value) {

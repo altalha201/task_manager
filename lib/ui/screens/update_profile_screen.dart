@@ -2,20 +2,21 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/api/network_utils.dart';
-import 'package:task_manager/utilities/toasts.dart';
-import 'package:task_manager/utilities/urls.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
-import 'package:task_manager/widgets/screen_background.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../data/auth_utils.dart';
+import '../../data/auth_utils.dart';
+import '../../data/network_utils.dart';
+import '../../data/urls.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
+import '../utilities/toasts.dart';
+import '../utilities/ui_utility.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_field.dart';
 import '../widgets/application_bar.dart';
+import '../widgets/screen_background.dart';
 import '../widgets/spacing.dart';
+
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({Key? key}) : super(key: key);
@@ -238,7 +239,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     updateProfile();
                   },
                   child: inProgress
-                      ? Utility.processing
+                      ? UIUtility.processing
                       : Text("Update", style: authButton(colorWhite),)
                 ),
 

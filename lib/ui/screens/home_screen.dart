@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/screens/task_components/canceled_task.dart';
-import 'package:task_manager/screens/task_components/completed_task.dart';
-import 'package:task_manager/screens/task_components/new_task.dart';
-import 'package:task_manager/screens/task_components/progress_task.dart';
-import 'package:task_manager/utilities/get_x_dialog.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
 
-import 'package:task_manager/widgets/app_nav_bar.dart';
-import 'package:task_manager/widgets/screen_background.dart';
-
+import '../../data/data_utilities.dart';
+import '../utilities/get_x_dialog.dart';
+import '../widgets/app_nav_bar.dart';
 import '../widgets/application_bar.dart';
+import '../widgets/screen_background.dart';
+import 'task_components/canceled_task.dart';
+import 'task_components/completed_task.dart';
+import 'task_components/new_task.dart';
+import 'task_components/progress_task.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -55,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Get.back();
               },
               negativeTap: () {
-                Utility.moveToLoginPage();
+                DataUtilities.moveToLoginPage();
               }
           );
         }

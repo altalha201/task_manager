@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/utilities/get_x_bottom_sheet.dart';
-import 'package:task_manager/utilities/get_x_dialog.dart';
 
-import '../../api/network_utils.dart';
+import '../../../data/data_utilities.dart';
+import '../../../data/network_utils.dart';
+import '../../../data/urls.dart';
 import '../../utilities/application_colors.dart';
-import '../../utilities/urls.dart';
-import '../../utilities/utility_functions.dart';
+import '../../utilities/get_x_bottom_sheet.dart';
+import '../../utilities/get_x_dialog.dart';
 import '../../widgets/task_list_item.dart';
 
 class CompletedTask extends StatefulWidget {
@@ -43,7 +43,7 @@ class _CompletedTaskState extends State<CompletedTask> {
     setState(() {
       inProgress = true;
     });
-    Utility.deleteItem(
+    DataUtilities.deleteItem(
         id,
         onSuccess: () {
           callData();

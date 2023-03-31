@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:task_manager/api/network_utils.dart';
-import 'package:task_manager/utilities/text_styles.dart';
-import 'package:task_manager/utilities/toasts.dart';
-import 'package:task_manager/utilities/urls.dart';
-import 'package:task_manager/utilities/utility_functions.dart';
-import 'package:task_manager/widgets/app_elevated_button.dart';
-import 'package:task_manager/widgets/app_text_field.dart';
-import 'package:task_manager/widgets/dual_text_widget.dart';
-import 'package:task_manager/widgets/screen_background.dart';
-import 'package:task_manager/widgets/spacing.dart';
 
+import '../../data/network_utils.dart';
+import '../../data/urls.dart';
 import '../utilities/application_colors.dart';
+import '../utilities/text_styles.dart';
+import '../utilities/toasts.dart';
+import '../utilities/ui_utility.dart';
+import '../widgets/app_elevated_button.dart';
+import '../widgets/app_text_field.dart';
+import '../widgets/dual_text_widget.dart';
+import '../widgets/screen_background.dart';
+import '../widgets/spacing.dart';
 
 class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({Key? key}) : super(key: key);
@@ -37,7 +37,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               children: [
                 Text("Your Email Address", style: authHeadline(colorDarkBlue),),
                 verticalSpacing(8.0),
-                Text(Utility.verificationString, style: authSubtitle(colorLightGray),),
+                Text(UIUtility.verificationString, style: authSubtitle(colorLightGray),),
                 verticalSpacing(24.0),
                 AppTextField(hint: "Email", controller: _email),
                 verticalSpacing(16.0),
@@ -57,7 +57,7 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         errorToast("Enter email");
                       }
                     },
-                    child: Utility.proceedIcon
+                    child: UIUtility.proceedIcon
                 ),
                 verticalSpacing(42.0),
                 DualTextWidget(

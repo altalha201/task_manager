@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:task_manager/widgets/spacing.dart';
 
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
+import 'spacing.dart';
 
 class DualTextWidget extends StatelessWidget {
 

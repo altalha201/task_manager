@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../../../data/data_utilities.dart';
-import '../../../data/models/task_model.dart';
-import '../../../data/network_utils.dart';
-import '../../../data/urls.dart';
-import '../../utilities/application_colors.dart';
+import '../../get_controllers/canceled_task_list_controller.dart';
+import '../../get_controllers/taskDeleteController.dart';
 import '../../utilities/get_x_bottom_sheet.dart';
-import '../../utilities/get_x_dialog.dart';
+import '../../utilities/ui_utility.dart';
 import '../../widgets/task_list_item.dart';
 
 class CanceledTask extends StatefulWidget {
@@ -18,87 +16,53 @@ class CanceledTask extends StatefulWidget {
 
 class _CanceledTaskState extends State<CanceledTask> {
 
-  bool inProgress = true;
-  TaskModel cancelTaskModel = TaskModel();
-
   @override
   void initState() {
-    callData();
+    Get.find<CanceledTaskListController>().getCanceledTasks();
     super.initState();
-  }
-
-  callData() async {
-    setState(() {inProgress = true;});
-
-    var response = await NetworkUtils().getMethod(url: "${Urls.taskListURL}Canceled");
-    if (response["status"] == "success") {
-      cancelTaskModel = TaskModel.fromJson(response);
-    }
-
-    setState(() {inProgress = false;});
-  }
-
-  Future<void> deleteItem(id) async {
-    setState(() {
-      inProgress = true;
-    });
-    DataUtilities.deleteItem(
-        id,
-        onSuccess: () {
-          callData();
-        }
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-      child: inProgress
-          ? const Center(
-        child: CircularProgressIndicator(
-          color: colorGreen,
-        ),
-      )
-          : RefreshIndicator(
-        onRefresh: () async {
-          callData();
-        },
-        child: ListView.builder(
-            itemCount: cancelTaskModel.data?.length ?? 0,
-            itemBuilder: (context, index) {
-              return TaskListItem(
-                title: cancelTaskModel.data?[index].title ?? "Unknown",
-                description: cancelTaskModel.data?[index].description ?? "Unknown",
-                date: cancelTaskModel.data?[index].createdDate ?? "Unknown",
-                type: cancelTaskModel.data?[index].status ?? "Unknown",
-                onEditTap: () {
-                  getTaskUpdateBottomSheet(
-                      currentStatus: cancelTaskModel.data?[index].status ?? "Unknown",
-                      taskId: cancelTaskModel.data?[index].sId ?? "Unknown",
-                      onComplete: () {
-                        callData();
-                      }
-                  );
+    return GetBuilder<CanceledTaskListController>(builder: (canceledTaskListController) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+        child: canceledTaskListController.inProgress
+            ? UIUtility.processingGreen
+            : RefreshIndicator(
+                onRefresh: () async {
+                  canceledTaskListController.getCanceledTasks();
                 },
-                onDeleteTap: () {
-                  buildGetXDialog(
-                      title: "Delete",
-                      message: "Want to delete task: ${cancelTaskModel.data?[index].title ?? "Unknown"}",
-                      positiveButtonText: "No",
-                      positiveTap: () {
-                        Navigator.pop(context);
-                      },
-                      negativeButtonText: "Yes",
-                      negativeTap: () async {
-                        deleteItem(cancelTaskModel.data?[index].sId ?? "Unknown");
-                        Navigator.pop(context);
-                      }
-                  );
-                },
-              );
-            }),
-      ),
-    );
+                child: ListView.builder(
+                    itemCount: canceledTaskListController.canceledTaskModel.data?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return TaskListItem(
+                        title: canceledTaskListController.canceledTaskModel.data?[index].title ?? "Unknown",
+                        description: canceledTaskListController.canceledTaskModel.data?[index].description ?? "Unknown",
+                        date: canceledTaskListController.canceledTaskModel.data?[index].createdDate ?? "Unknown",
+                        type: canceledTaskListController.canceledTaskModel.data?[index].status ?? "Unknown",
+                        onEditTap: () {
+                          getTaskUpdateBottomSheet(
+                              currentStatus: canceledTaskListController.canceledTaskModel.data?[index].status ?? "Unknown",
+                              taskId: canceledTaskListController.canceledTaskModel.data?[index].sId ?? "Unknown",
+                              onComplete: () {
+                                canceledTaskListController.getCanceledTasks();
+                              }
+                          );
+                        },
+                        onDeleteTap: () {
+                          TaskDeleteController.deleteTask(
+                              title: canceledTaskListController.canceledTaskModel.data?[index].title ?? "Unknown",
+                              id: canceledTaskListController.canceledTaskModel.data?[index].sId ?? "Unknown",
+                              onComplete: () {
+                                canceledTaskListController.getCanceledTasks();
+                              }
+                          );
+                        },
+                      );
+                    }),
+            ),
+      );
+    });
   }
 }

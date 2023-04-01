@@ -1,4 +1,4 @@
-import '../../data/auth_utils.dart';
+import '../../../data/auth_utils.dart';
 
 class SplashController {
   static Future<bool> checkUserState() async {

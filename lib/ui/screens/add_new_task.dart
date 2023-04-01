@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../get_controllers/add_new_task_controller.dart';
+import '../controllers/get_controllers/add_new_task_controller.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
 import '../utilities/toasts.dart';

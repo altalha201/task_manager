@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../get_controllers/new_task_list_controller.dart';
-import '../../get_controllers/taskDeleteController.dart';
-import '../../get_controllers/task_count_controller.dart';
+import '../../controllers/class_controller/taskDeleteController.dart';
+import '../../controllers/get_controllers/new_task_list_controller.dart';
+import '../../controllers/get_controllers/task_count_controller.dart';
 import '../../utilities/get_x_bottom_sheet.dart';
 import '../../utilities/ui_utility.dart';
 import '../../widgets/dashboard_item.dart';

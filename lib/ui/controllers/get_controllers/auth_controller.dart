@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../data/data_utilities.dart';
+import '../../../data/data_utilities.dart';
 
 class AuthController extends GetxController{
   bool loginInProgress = false;

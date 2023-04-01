@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'package:task_manager/data/data_utilities.dart';
 
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
-import '../utilities/toasts.dart';
+import '../../../data/data_utilities.dart';
+import '../../../data/network_utils.dart';
+import '../../../data/urls.dart';
+import '../../utilities/toasts.dart';
 
 class ProfileCreateController extends GetxController {
   bool inProgress = false;

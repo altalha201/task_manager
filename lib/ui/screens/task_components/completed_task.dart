@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../get_controllers/completed_task_list_controller.dart';
-import '../../get_controllers/taskDeleteController.dart';
+import '../../controllers/class_controller/taskDeleteController.dart';
+import '../../controllers/get_controllers/completed_task_list_controller.dart';
 import '../../utilities/get_x_bottom_sheet.dart';
 import '../../utilities/ui_utility.dart';
 import '../../widgets/task_list_item.dart';

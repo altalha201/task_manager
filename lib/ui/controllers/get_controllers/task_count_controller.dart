@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../../data/models/task_count_model.dart';
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
+import '../../../data/models/task_count_model.dart';
+import '../../../data/network_utils.dart';
+import '../../../data/urls.dart';
 
 class TaskCountController extends GetxController {
   bool inProgress = false;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../get_controllers/splash_controller.dart';
+import '../controllers/class_controller/splash_controller.dart';
 import '../utilities/ui_utility.dart';
 import '../widgets/screen_background.dart';
 

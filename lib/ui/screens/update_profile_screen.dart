@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 import '../../data/auth_utils.dart';
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
+import '../controllers/get_controllers/profile_update_controller.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
 import '../utilities/toasts.dart';
@@ -27,105 +23,19 @@ class UpdateProfileScreen extends StatefulWidget {
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
-  final emailController = TextEditingController();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
-
-  XFile? pickedImage;
-  String? base64Image;
-
-  bool inProgress = false;
+  final emailET = TextEditingController();
+  final firstNameET = TextEditingController();
+  final lastNameET = TextEditingController();
+  final mobileET = TextEditingController();
+  final passET = TextEditingController();
 
   @override
   initState() {
     super.initState();
-    emailController.text = AuthUtils.email ?? "";
-    firstNameController.text = AuthUtils.firstName ?? "";
-    lastNameController.text = AuthUtils.lastName ?? "";
-    phoneController.text = AuthUtils.mobile ?? "";
-  }
-
-  Future<void> pickImage() async {
-    Get.defaultDialog(
-      title: "Pick Image Form",
-      textCancel: "Cancel",
-      cancelTextColor: colorRed,
-      buttonColor: colorRed,
-      content: Column(
-        children: [
-          ListTile(
-            onTap: () async {
-              var navigator = Navigator.of(context);
-              pickedImage = await ImagePicker().pickImage(source: ImageSource.camera);
-              if (pickedImage != null) {
-                setState(() {});
-              }
-              navigator.pop();
-            },
-            leading: const Icon(Icons.camera_alt_outlined, size: 34, color: colorDarkBlue,),
-            title: const Text("Camera"),
-          ),
-          ListTile(
-            onTap: () async {
-              var navigator = Navigator.of(context);
-              pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-              if (pickedImage != null) {
-                setState(() {});
-              }
-              navigator.pop();
-            },
-            leading: const Icon(Icons.image_outlined, size: 34, color: colorDarkBlue,),
-            title: const Text("Gallery"),
-          )
-        ],
-      ),
-    );
-  }
-
-  Future<void> updateProfile() async {
-
-    setState(() {
-      inProgress = true;
-    });
-
-    Map<String, String> requestBody = {
-      'firstName':firstNameController.text,
-      'lastName':lastNameController.text,
-      'mobile':phoneController.text.trim(),
-    };
-
-    if (pickedImage != null) {
-      List<int> imageBytes = await pickedImage!.readAsBytes();
-      base64Image = base64Encode(imageBytes);
-      requestBody['photo'] = base64Image ?? "";
-      setState(() {
-        AuthUtils.profilePic = base64Image ?? AuthUtils.profilePic;
-      });
-    }
-
-    if (passwordController.text.isNotEmpty) {
-      requestBody['password'] = passwordController.text;
-    }
-
-    final response = await NetworkUtils().postMethod(
-      Urls.profileUpdateURL,
-      body: requestBody
-    );
-    if (response != null && response['status'] == "success") {
-      successToast("Profile update");
-      setState(() {
-        AuthUtils.firstName = firstNameController.text;
-        AuthUtils.lastName = lastNameController.text;
-        AuthUtils.mobile = phoneController.text.trim();
-      });
-      Get.offAllNamed("/home");
-    }
-
-    setState(() {
-      inProgress = false;
-    });
+    emailET.text = AuthUtils.email ?? "";
+    firstNameET.text = AuthUtils.firstName ?? "";
+    lastNameET.text = AuthUtils.lastName ?? "";
+    mobileET.text = AuthUtils.mobile ?? "";
   }
 
   @override
@@ -144,9 +54,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   style: authHeadline(colorDarkBlue),
                 ),
                 verticalSpacing(24.0),
-
                 InkWell(
-                  onTap: () => pickImage(),
+                  onTap: () {
+                    Get.find<ProfileUpdateController>().pickImage();
+                  },
                   child: Row(
                     children: [
                       Container(
@@ -170,11 +81,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 bottomRight: Radius.circular(8),
                               ),
                             ),
-                            child: Text(
-                              pickedImage?.name ?? "",
-                              maxLines: 1,
-                              style: const TextStyle(overflow: TextOverflow.ellipsis),
-                            ),
+                            child: GetBuilder<ProfileUpdateController>(builder: (updateController) {
+                              return Text(
+                                updateController.pickedImage?.name ?? "",
+                                maxLines: 1,
+                                style: const TextStyle(overflow: TextOverflow.ellipsis),
+                              );
+                            }),
                           ),
                       )
                     ],
@@ -184,13 +97,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 verticalSpacing(16.0),
                 AppTextField(
                   hint: "Email",
-                  controller: emailController,
+                  controller: emailET,
                   readOnly: true,
                 ),
                 verticalSpacing(16.0),
                 AppTextField(
                   hint: "First Name",
-                  controller: firstNameController,
+                  controller: firstNameET,
                   validator: (value) {
                     if (value?.isEmpty ?? true){
                       return "Enter Your First Name";
@@ -201,7 +114,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 verticalSpacing(16.0),
                 AppTextField(
                   hint: "Last Name",
-                  controller: lastNameController,
+                  controller: lastNameET,
                   validator: (value) {
                     if (value?.isEmpty ?? true){
                       return "Enter Your Last Name";
@@ -212,7 +125,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 verticalSpacing(16.0),
                 AppTextField(
                   hint: "Mobile Number",
-                  controller: phoneController,
+                  controller: mobileET,
                   validator: (value) {
                     if (value?.trim().isEmpty ?? true){
                       return "Enter Your Phone Number";
@@ -223,7 +136,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 verticalSpacing(16.0),
                 AppTextField(
                   hint: "Password",
-                  controller: passwordController,
+                  controller: passET,
                   obscureText: true,
                   validator: (value) {
                     if ((value?.isEmpty ?? true) &&
@@ -234,15 +147,37 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   },
                 ),
                 verticalSpacing(24.0),
-                AppElevatedButton(
-                  onTap: () {
-                    updateProfile();
-                  },
-                  child: inProgress
-                      ? UIUtility.processing
-                      : Text("Update", style: authButton(colorWhite),)
-                ),
+                GetBuilder<ProfileUpdateController>(builder: (updateController) {
+                  return AppElevatedButton(
+                      onTap: () async {
+                        bool result;
+                        if (passET.text.isNotEmpty) {
+                          result = await updateController.updateProfile(
+                              firstName: firstNameET.text,
+                              lastName: lastNameET.text,
+                              mobile: mobileET.text.trim(),
+                              pass: passET.text
+                          );
+                        } else {
+                          result = await updateController.updateProfile(
+                              firstName: firstNameET.text,
+                              lastName: lastNameET.text,
+                              mobile: mobileET.text.trim()
+                          );
+                        }
 
+                        if (result) {
+                          successToast("Profile Update Success");
+                          Get.offAllNamed("/home");
+                        } else {
+                          errorToast("Update Failed! Try again later");
+                        }
+                      },
+                      child: updateController.inProgress
+                          ? UIUtility.processing
+                          : Text("Update", style: authButton(colorWhite),)
+                  );
+                }),
               ],
             ),
           ),

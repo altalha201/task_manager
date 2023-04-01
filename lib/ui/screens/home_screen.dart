@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../get_controllers/auth_controller.dart';
-import '../get_controllers/home_controller.dart';
+import '../controllers/get_controllers/auth_controller.dart';
+import '../controllers/get_controllers/home_controller.dart';
 import '../utilities/get_x_dialog.dart';
 import '../widgets/app_nav_bar.dart';
 import '../widgets/application_bar.dart';

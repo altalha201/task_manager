@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/data_utilities.dart';
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
+import '../get_controllers/add_new_task_controller.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
 import '../utilities/toasts.dart';
@@ -14,49 +12,12 @@ import '../widgets/application_bar.dart';
 import '../widgets/screen_background.dart';
 import '../widgets/spacing.dart';
 
-class AddNewTask extends StatefulWidget {
-  const AddNewTask({Key? key}) : super(key: key);
+class AddNewTask extends StatelessWidget {
+  AddNewTask({Key? key}) : super(key: key);
 
-  @override
-  State<AddNewTask> createState() => _AddNewTaskState();
-}
-
-class _AddNewTaskState extends State<AddNewTask> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
-
   final GlobalKey<FormState> _newTaskKey = GlobalKey<FormState>();
-
-  bool inProgress = false;
-
-  Future<void> checkAndAddTask() async {
-    if (_newTaskKey.currentState!.validate()) {
-      setState(() {
-        inProgress = true;
-      });
-      final result = await NetworkUtils().postMethod(
-        Urls.addTaskURL,
-        body: {
-          "title":title.text,
-          "description":description.text,
-          "status":"New"
-        },
-        onUnAuthorize: () {
-          errorToast("Please login again");
-          DataUtilities.moveToLoginPage();
-        }
-      );
-      if (result != null && result["status"] == "success") {
-        title.clear();
-        description.clear();
-        successToast("Task Added");
-        Get.offAllNamed("/home");
-      }
-      setState(() {
-        inProgress = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,12 +65,25 @@ class _AddNewTaskState extends State<AddNewTask> {
                     maxLine: 10,
                   ),
                   verticalSpacing(24.0),
-                  AppElevatedButton(
-                      onTap: () => checkAndAddTask(),
-                      child: inProgress
-                          ? UIUtility.processing
-                          : UIUtility.proceedIcon
-                  )
+                  GetBuilder<AddNewTaskController>(builder: (addNewTaskController) {
+                    return AppElevatedButton(
+                        onTap: () async {
+                          if (_newTaskKey.currentState!.validate()) {
+                            var result = await addNewTaskController.addTask(
+                              title: title.text, 
+                              description: description.text
+                            );
+                            if (result) {
+                              successToast("Task Added Successful");
+                              Get.offAllNamed("/home");
+                            }
+                          }
+                        },
+                        child: addNewTaskController.inProgress
+                            ? UIUtility.processing
+                            : UIUtility.proceedIcon
+                    );
+                  }),
                 ],
               ),
             ),

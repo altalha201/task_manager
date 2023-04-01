@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'ui/get_controllers/add_new_task_controller.dart';
 import 'ui/get_controllers/auth_controller.dart';
 import 'ui/get_controllers/canceled_task_list_controller.dart';
 import 'ui/get_controllers/completed_task_list_controller.dart';
+import 'ui/get_controllers/home_controller.dart';
 import 'ui/get_controllers/new_task_list_controller.dart';
+import 'ui/get_controllers/profile_create_controller.dart';
 import 'ui/get_controllers/progress_task_list_controller.dart';
 import 'ui/get_controllers/task_count_controller.dart';
 import 'ui/get_controllers/update_status_controller.dart';
@@ -44,9 +47,9 @@ class TaskManagerApp extends StatelessWidget {
         GetPage(name: '/emailVerification', page: () => const EmailVerificationScreen()),
         GetPage(name: '/pinVerification', page: () => const PinVerificationScreen()),
         GetPage(name: '/setPass', page: () => const SetPasswordScreen()),
-        GetPage(name: '/signUp', page: () => const SignUpScreen()),
+        GetPage(name: '/signUp', page: () => SignUpScreen()),
         GetPage(name: '/home', page: () => const HomeScreen()),
-        GetPage(name: '/addTask', page: () => const AddNewTask()),
+        GetPage(name: '/addTask', page: () => AddNewTask()),
         GetPage(name: '/profile', page: () => const UpdateProfileScreen()),
       ],
     );
@@ -63,5 +66,8 @@ class StoreBinding extends Bindings {
     Get.put(ProgressTaskListController());
     Get.put(CompletedTaskListController());
     Get.put(CanceledTaskListController());
+    Get.put(AddNewTaskController());
+    Get.put(HomeController());
+    Get.put(ProfileCreateController());
   }
 }

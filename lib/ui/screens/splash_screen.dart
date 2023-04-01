@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../../data/auth_utils.dart';
+import '../get_controllers/splash_controller.dart';
 import '../utilities/ui_utility.dart';
 import '../widgets/screen_background.dart';
 
@@ -18,23 +18,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-
-    Future.delayed(const Duration(seconds: 2), () {
-      checkUserState();
+    Future.delayed(const Duration(seconds: 2), () async {
+      if (await SplashController.checkUserState()) {
+        Get.offAllNamed("/home");
+      } else {
+        Get.offAllNamed("/login");
+      }
     });
-
     super.initState();
-  }
-
-  Future<void> checkUserState() async {
-    final bool userState = await AuthUtils.checkLoginState();
-    if (userState) {
-      await AuthUtils.getAuthData();
-      Get.offAllNamed("/home");
-    }
-    else {
-      Get.offAllNamed("/login");
-    }
   }
 
   @override

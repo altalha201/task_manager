@@ -1,37 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/data_utilities.dart';
+import '../get_controllers/auth_controller.dart';
+import '../get_controllers/home_controller.dart';
 import '../utilities/get_x_dialog.dart';
 import '../widgets/app_nav_bar.dart';
 import '../widgets/application_bar.dart';
 import '../widgets/screen_background.dart';
-import 'task_components/canceled_task.dart';
-import 'task_components/completed_task.dart';
-import 'task_components/new_task.dart';
-import 'task_components/progress_task.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int tabIndex = 0;
-  onTapItem(int index) {
-    setState(() {
-      tabIndex = index;
-    });
-  }
-
-  final widgetsOptions = [
-    const NewTask(),
-    const ProgressTask(),
-    const CompletedTask(),
-    const CanceledTask(),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +32,20 @@ class _HomeScreenState extends State<HomeScreen> {
                 Get.back();
               },
               negativeTap: () {
-                DataUtilities.moveToLoginPage();
+                Get.find<AuthController>().logout();
               }
           );
         }
       ),
       body: ScreenBackground(
-        child: widgetsOptions.elementAt(tabIndex),
+        child: GetBuilder<HomeController>(builder: (homeController) {
+          return homeController.widgetsOptions.elementAt(homeController.currentIndex);
+        },),
       ),
       bottomNavigationBar: AppNavBar(
-        currentIndex: tabIndex,
+        currentIndex: Get.find<HomeController>().currentIndex,
         onTap: (value) {
-          onTapItem(value);
+          Get.find<HomeController>().changeIndex(value);
         },
       ),
     );

@@ -28,6 +28,7 @@ class NetworkUtils {
           onUnAuthorize();
         } else {
           log("Something went Wrong");
+          DataUtilities.moveToLoginPage();
         }
       } else {
         log("Something went wrong ${response.statusCode}");

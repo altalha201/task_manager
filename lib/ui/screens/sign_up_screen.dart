@@ -2,12 +2,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/data_utilities.dart';
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
+import '../get_controllers/profile_create_controller.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
-import '../utilities/toasts.dart';
 import '../utilities/ui_utility.dart';
 import '../widgets/app_elevated_button.dart';
 import '../widgets/app_text_field.dart';
@@ -15,53 +12,15 @@ import '../widgets/dual_text_widget.dart';
 import '../widgets/screen_background.dart';
 import '../widgets/spacing.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class SignUpScreen extends StatelessWidget {
+  SignUpScreen({Key? key}) : super(key: key);
 
-  @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
-}
-
-class _SignUpScreenState extends State<SignUpScreen> {
-  final emailController = TextEditingController();
-  final firstNameController = TextEditingController();
-  final lastNameController = TextEditingController();
-  final phoneController = TextEditingController();
-  final passwordController = TextEditingController();
-
+  final emailET = TextEditingController();
+  final firstNameET = TextEditingController();
+  final lastNameET = TextEditingController();
+  final phoneNumberET = TextEditingController();
+  final passwordET = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  bool inProgress = false;
-
-  void fromFilled() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        inProgress = true;
-      });
-      final result = await NetworkUtils().postMethod(Urls.registerURL, body: {
-        "email": emailController.text.trim(),
-        'mobile': phoneController.text.trim(),
-        'password': passwordController.text,
-        'firstName': firstNameController.text,
-        'lastName': lastNameController.text,
-      });
-
-      if (result != null && result['status'] == "success") {
-        final login = await DataUtilities.login(
-            emailController.text.trim(), passwordController.text);
-        if (login) {
-          Get.offAllNamed("/home");
-        } else {
-          errorToast("Something went wrong while login. Try From Login later");
-        }
-      } else {
-        errorToast("Something went wrong try again");
-      }
-      setState(() {
-        inProgress = false;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verticalSpacing(24.0),
                         AppTextField(
                           hint: "Email",
-                          controller: emailController,
+                          controller: emailET,
                           validator: (value) {
                             if (value?.trim().isEmpty ?? true) {
                               return "Enter Your Email";
@@ -99,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verticalSpacing(16.0),
                         AppTextField(
                           hint: "First Name",
-                          controller: firstNameController,
+                          controller: firstNameET,
                           validator: (value) {
                             if (value?.isEmpty ?? true) {
                               return "Enter Your First Name";
@@ -110,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verticalSpacing(16.0),
                         AppTextField(
                           hint: "Last Name",
-                          controller: lastNameController,
+                          controller: lastNameET,
                           validator: (value) {
                             if (value?.isEmpty ?? true) {
                               return "Enter Your Last Name";
@@ -121,7 +80,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verticalSpacing(16.0),
                         AppTextField(
                           hint: "Mobile Number",
-                          controller: phoneController,
+                          controller: phoneNumberET,
                           validator: (value) {
                             if (value?.trim().isEmpty ?? true) {
                               return "Enter Your Phone Number";
@@ -132,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         verticalSpacing(16.0),
                         AppTextField(
                           hint: "Password",
-                          controller: passwordController,
+                          controller: passwordET,
                           obscureText: true,
                           validator: (value) {
                             if ((value?.isEmpty ?? true) &&
@@ -143,11 +102,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           },
                         ),
                         verticalSpacing(16.0),
-                        AppElevatedButton(
-                            onTap: () => fromFilled(),
-                            child: inProgress
-                                ? UIUtility.processing
-                                : UIUtility.proceedIcon),
+                        GetBuilder<ProfileCreateController>(builder: (signUp) {
+                          return AppElevatedButton(
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  signUp.createProfile(
+                                      email: emailET.text.trim(),
+                                      mobile: phoneNumberET.text.trim(),
+                                      firstName: firstNameET.text,
+                                      lastName: lastNameET.text,
+                                      password: passwordET.text
+                                  );
+                                }
+                              },
+                              child: signUp.inProgress
+                                  ? UIUtility.processing
+                                  : UIUtility.proceedIcon);
+                        }),
                         verticalSpacing(42.0),
                         DualTextWidget(
                           question: "Have an account?",

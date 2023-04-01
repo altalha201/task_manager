@@ -18,4 +18,8 @@ class AuthController extends GetxController{
       return false;
     }
   }
+
+  void logout() {
+    DataUtilities.moveToLoginPage();
+  }
 }

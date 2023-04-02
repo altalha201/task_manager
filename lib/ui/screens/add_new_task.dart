@@ -75,7 +75,7 @@ class AddNewTask extends StatelessWidget {
                             );
                             if (result) {
                               successToast("Task Added Successful");
-                              Get.offAllNamed("/home");
+                              Get.offAllNamed("/");
                             }
                           }
                         },

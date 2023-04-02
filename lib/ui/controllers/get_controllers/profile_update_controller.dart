@@ -50,19 +50,10 @@ class ProfileUpdateController extends GetxController {
   }
 
   Future<bool> updateProfile({
-    required String firstName,
-    required String lastName,
-    required String mobile,
-    String? pass
+    required Map<String, String> requestBody
   }) async {
     inProgress = true;
     update();
-
-    Map<String, String> requestBody = {
-      'firstName' : firstName,
-      'lastName' : lastName,
-      'mobile' : mobile,
-    };
 
     if (pickedImage != null) {
       List<int> imageBytes = await pickedImage!.readAsBytes();
@@ -71,19 +62,15 @@ class ProfileUpdateController extends GetxController {
       AuthUtils.profilePic = base64Image ?? AuthUtils.profilePic;
     }
 
-    if (pass?.isNotEmpty ?? false) {
-      requestBody['password'] = pass!;
-    }
-
     final response = await NetworkUtils().postMethod(
       Urls.profileUpdateURL,
       body: requestBody
     );
     inProgress = false;
     if (response != null && response['status'] == "success") {
-      AuthUtils.firstName = firstName;
-      AuthUtils.lastName = lastName;
-      AuthUtils.mobile = mobile;
+      AuthUtils.firstName = requestBody["firstName"];
+      AuthUtils.lastName = requestBody["lastName"];
+      AuthUtils.mobile = requestBody["mobile"];
       update();
       return true;
     } else {

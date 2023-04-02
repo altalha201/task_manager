@@ -150,27 +150,21 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 GetBuilder<ProfileUpdateController>(builder: (updateController) {
                   return AppElevatedButton(
                       onTap: () async {
-                        bool result;
+                        Map<String, String> requestBody = {
+                          "firstName" : firstNameET.text,
+                          "lastName" : lastNameET.text,
+                          "mobile" : mobileET.text.trim()
+                        };
+
                         if (passET.text.isNotEmpty) {
-                          result = await updateController.updateProfile(
-                              firstName: firstNameET.text,
-                              lastName: lastNameET.text,
-                              mobile: mobileET.text.trim(),
-                              pass: passET.text
-                          );
-                        } else {
-                          result = await updateController.updateProfile(
-                              firstName: firstNameET.text,
-                              lastName: lastNameET.text,
-                              mobile: mobileET.text.trim()
-                          );
+                          requestBody["password"] = passET.text;
                         }
 
-                        if (result) {
-                          successToast("Profile Update Success");
-                          Get.offAllNamed("/home");
+                        if (await Get.find<ProfileUpdateController>().updateProfile(requestBody: requestBody)) {
+                          successToast("Profile updated");
+                          Get.offAllNamed("/");
                         } else {
-                          errorToast("Update Failed! Try again later");
+                          errorToast("Update failed");
                         }
                       },
                       child: updateController.inProgress

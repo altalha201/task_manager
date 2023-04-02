@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
+import '../controllers/get_controllers/account_recovery_controller.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
 import '../utilities/toasts.dart';
@@ -13,28 +12,15 @@ import '../widgets/dual_text_widget.dart';
 import '../widgets/screen_background.dart';
 import '../widgets/spacing.dart';
 
-class SetPasswordScreen extends StatefulWidget {
-  const SetPasswordScreen({Key? key}) : super(key: key);
-
-  @override
-  State<SetPasswordScreen> createState() => _SetPasswordScreenState();
-}
-
-class _SetPasswordScreenState extends State<SetPasswordScreen> {
+class SetPasswordScreen extends StatelessWidget {
+  SetPasswordScreen({Key? key}) : super(key: key);
 
   final TextEditingController _newPasswordETController = TextEditingController();
   final TextEditingController _confirmPasswordETController = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  late String getEmail, getOTP;
 
   @override
   Widget build(BuildContext context) {
-
-    getEmail = Get.arguments["email"];
-    getOTP = Get.arguments["pin"];
-
     return Scaffold(
       body: ScreenBackground(
         child: SafeArea(
@@ -73,15 +59,7 @@ class _SetPasswordScreenState extends State<SetPasswordScreen> {
                   AppElevatedButton(
                     onTap: () async {
                       if (_formKey.currentState!.validate()) {
-                        final response = await NetworkUtils().postMethod(
-                          Urls.recoverPassURL,
-                          body : {
-                            "email":getEmail,
-                            "OTP":getOTP,
-                            "password":_newPasswordETController.text
-                          }
-                        );
-                        if(response["status"] == "success") {
+                        if(await Get.find<AccountRecoveryController>().resetPassword(pass: _newPasswordETController.text)) {
                           successToast("Password Reset");
                           Get.offAllNamed("/login");
                         }

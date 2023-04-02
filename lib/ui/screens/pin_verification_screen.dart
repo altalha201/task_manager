@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
-import '../../data/network_utils.dart';
-import '../../data/urls.dart';
+import '../controllers/get_controllers/account_recovery_controller.dart';
 import '../utilities/application_colors.dart';
 import '../utilities/text_styles.dart';
 import '../utilities/toasts.dart';
@@ -13,24 +12,13 @@ import '../widgets/dual_text_widget.dart';
 import '../widgets/screen_background.dart';
 import '../widgets/spacing.dart';
 
-class PinVerificationScreen extends StatefulWidget {
-  const PinVerificationScreen({Key? key}) : super(key: key);
-
-  @override
-  State<PinVerificationScreen> createState() => _PinVerificationScreenState();
-}
-
-class _PinVerificationScreenState extends State<PinVerificationScreen> {
+class PinVerificationScreen extends StatelessWidget {
+  PinVerificationScreen({Key? key}) : super(key: key);
 
   final _pinField = TextEditingController();
 
-  late String getEmail;
-
   @override
   Widget build(BuildContext context) {
-
-    getEmail = Get.arguments["email"];
-
     return Scaffold(
       body: ScreenBackground(
         child: SafeArea(
@@ -73,9 +61,8 @@ class _PinVerificationScreenState extends State<PinVerificationScreen> {
                 AppElevatedButton(
                     onTap: () async {
                       if (_pinField.text.trim().isNotEmpty) {
-                        final response = await NetworkUtils().getMethod(url: Urls.otpURL(getEmail, _pinField.text.trim()));
-                        if (response["status"] == "success") {
-                          Get.toNamed("/setPass", arguments: {"email" : getEmail, "pin" : _pinField.text.trim()});
+                        if (await Get.find<AccountRecoveryController>().checkOTP(pin: _pinField.text.trim())) {
+                          Get.toNamed("/setPass");
                         }
                         else {
                           errorToast("OTP doesn't match");
